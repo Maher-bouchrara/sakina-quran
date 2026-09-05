@@ -12,19 +12,10 @@ Site statique. Aucune installation, aucune clé d'API, aucune dépendance à ins
 
 ## En ligne
 
+<https://sakina-quran-weld.vercel.app>
+
 Projet Vercel **sakina-quran**, relie au depot : chaque push sur `main` declenche
-un deploiement de production. Adresse : <https://sakina-quran.vercel.app>
-
-Un dernier reglage reste a faire, et il ne peut pas etre automatise (le connecteur
-Vercel de l'atelier n'a acces qu'a l'endpoint de deploiement ; toute gestion de
-projet repond 403) :
-
-> **Ouvrir l'acces.** Le site redirige encore vers la connexion Vercel pour qui
-> n'est pas signe dans le compte. Projet `sakina-quran` > Settings >
-> Deployment Protection > Vercel Authentication > **Disabled** > Save.
-
-Pour une adresse plus courte : `quran.vercel.app` appartient a un autre compte,
-mais `quran.maherbouchrara.me` est a vous (Settings > Domains, puis un CNAME).
+un deploiement de production.
 
 ## Lancer en local
 
@@ -139,9 +130,13 @@ Conçu et réalisé par **Maher Bouchrara** — [maherbouchrara.me](https://mahe
 Dans le site, la signature est affichée à deux endroits, toutes deux cliquables
 vers le portfolio :
 
-- **le bandeau**, à côté du nom du site — « par Maher Bouchrara » (à partir de 900 px
-  de large ; en dessous le bandeau est entièrement pris par les sélecteurs) ;
-- **Scène → Crédits**, en bas du panneau — à toutes les tailles d'écran.
+- **le bandeau**, à côté du nom du site, à partir de 900 px de large ;
+- **le rail de lecture**, en bas à gauche, en dessous de 900 px — le bandeau y est
+  entièrement pris par les sélecteurs, la signature descend donc là où l'œil cherche
+  une mention d'auteur. Sous 460 px le « par » tombe, il ne reste que le nom ;
+- **Scène → Crédits**, en bas du panneau — à toutes les tailles.
+
+Une seule des deux premières est visible à la fois : jamais de doublon à l'écran.
 
 ## Limites connues
 

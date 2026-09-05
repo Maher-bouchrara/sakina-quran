@@ -364,6 +364,11 @@ body {
 .counter b { font-size: 14px; font-weight: 600; color: var(--silver); }
 .counter__sep { color: var(--moon-deep); }
 
+/* Le bandeau porte la signature tant qu'il a de la place. Sous 900 px il est
+   entierement pris par les selecteurs : elle descend alors dans le rail, la ou
+   l'oeil cherche une mention d'auteur. Une seule des deux est visible a la fois. */
+.transport__by { display: none; }
+
 .ico { width: 19px; height: 19px; display: block; }
 
 .ctl {
@@ -628,6 +633,20 @@ kbd {
   }
   .seek { max-width: none; }
   .volume__rail { width: 52px; }
+
+  .transport__by {
+    display: block;
+    flex: none;
+    margin-right: auto;          /* pousse les commandes a droite, en bloc */
+    font-size: 9.5px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--silver-3); white-space: nowrap;
+  }
+  .transport__by a {
+    color: var(--silver-2);
+    text-decoration: none;
+    transition: color .22s var(--ease);
+  }
+  .transport__by a:hover { color: var(--moon); }
 }
 
 @media (max-width: 700px) {
@@ -643,6 +662,8 @@ kbd {
 @media (max-width: 460px) {
   .picker .ico { display: none; }
   .speed { display: none; }
+  .transport__by-pre { display: none; }
+  .transport__by { letter-spacing: .1em; }
 }
 
 @media (prefers-reduced-motion: reduce) {
