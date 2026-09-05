@@ -159,6 +159,22 @@ body {
   color: var(--silver);
 }
 
+/* La signature vit dans le bandeau, au meme rang que les libelles de commande :
+   presente sur chaque page, jamais en travers du verset. */
+.brand__by {
+  flex: none;
+  padding-left: 11px;
+  border-left: 1px solid var(--line);
+  font-size: 9.5px; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--silver-3); white-space: nowrap;
+}
+.brand__by a {
+  color: var(--silver-2);
+  text-decoration: none;
+  transition: color .22s var(--ease);
+}
+.brand__by a:hover { color: var(--moon); }
+
 .pickers { margin-left: auto; display: flex; align-items: stretch; height: 100%; }
 
 .picker {
@@ -592,7 +608,7 @@ kbd {
 @media (max-width: 900px) {
   :root { --rail-top: 54px; --rail-bot: 128px; }
 
-  .brand__name { display: none; }
+  .brand__name, .brand__by { display: none; }
 
   .pickers { width: 100%; margin-left: 12px; }
   .picker { flex: 1; min-width: 0; padding: 0 12px; overflow: hidden; }
