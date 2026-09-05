@@ -33,6 +33,8 @@ Un petit serveur reste plus sûr (certains navigateurs durcissent `file://`).
 
 - **Une ligne à la fois.** Le verset récité occupe le centre de la page. Quand la
   récitation avance, la ligne suivante se lève pendant que la précédente s'efface.
+- **Les longs versets tiennent quand même.** Le corps se resserre par paliers selon
+  la longueur ; au-delà, la zone défile et son bas s'estompe pour signaler la suite.
 - **Le mot en cours s'allume**, et les mots déjà lus restent bleutés : on suit sans
   chercher où l'on en est.
 - **Choix du récitateur** — les 12 voix de quran.com qui disposent d'un minutage

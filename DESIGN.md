@@ -99,6 +99,30 @@ si l'une change, l'autre doit suivre, sinon un noir apparaît entre les plans.
 - Les surfaces du navigateur sont habillées : sélection, curseur de saisie,
   barres de défilement, anneau de focus, chiffres tabulaires.
 
+## Les versets longs
+
+Un verset de deux mots et un verset de mille ne peuvent pas tenir au même corps.
+Trois dispositifs, dans cet ordre :
+
+1. **Le corps se resserre par paliers**, selon la longueur du texte arabe : 1 jusqu'à
+   70 caractères, puis 0,88 · 0,80 · 0,73 · 0,68. Le plancher n'est pas arbitraire —
+   en dessous, le tashkīl se referme sur la lettre et le mot cesse d'être lisible.
+2. **La zone du verset défile** quand même le dernier palier ne suffit pas
+   (Al-Baqarah 2:282, 1 220 caractères, ne tiendra sur aucun téléphone).
+3. **Le bas s'estompe** tant qu'il reste quelque chose dessous, et le fondu s'éteint
+   une fois le verset lu jusqu'au bout : la coupure devient une invitation plutôt
+   qu'un texte tronqué.
+
+Le lecteur est **deux vraies rangées de grille** — l'identité, puis le verset. Elle
+flottait auparavant en position absolue, ce qui laissait un long verset lui passer
+dessous ; et `place-items: center` rognait le haut du texte dès qu'il débordait.
+`margin: auto 0` sur la pile fait les deux : centrage tant qu'il reste de la place,
+aucun rognage une fois le contenu plus haut que le cadre.
+
+La mesure du débordement lit `scrollHeight`, ce qui force le calcul de mise en page :
+juste tout de suite, sans dépendre de `requestAnimationFrame` — qui se met en veille
+dans un onglet caché ou une vue intégrée, et laisserait le fondu éteint.
+
 ## La signature
 
 « © Maher Bouchrara » occupe **sa propre bande**, sous les commandes, séparée par le

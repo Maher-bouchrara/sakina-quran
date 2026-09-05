@@ -196,17 +196,15 @@ body {
   position: relative; z-index: 10;
   height: 100%;
   display: grid;
-  place-items: center;
-  padding: calc(var(--rail-top) + clamp(20px, 4vh, 44px)) var(--gut) calc(var(--rail-bot) + clamp(16px, 3vh, 34px));
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: clamp(10px, 1.6vh, 22px);
+  padding: calc(var(--rail-top) + clamp(16px, 3vh, 36px)) var(--gut) calc(var(--rail-bot) + clamp(12px, 2vh, 26px));
   overflow: hidden;
 }
 
 /* --- identité de la sourate, discrète, en haut --- */
 
 .surahhead {
-  position: absolute;
-  top: calc(var(--rail-top) + clamp(20px, 4vh, 44px));
-  left: var(--gut); right: var(--gut);
   text-align: center;
   transition: opacity .5s var(--ease);
 }
@@ -238,16 +236,36 @@ body {
 
 .lyric {
   position: relative;
-  display: grid;
-  place-items: center;
+  display: flex;
+  flex-direction: column;
   width: 100%;
   min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* Quand le verset deborde, le bas s'estompe : la coupure devient une invitation
+   a faire defiler au lieu de ressembler a un texte tronque. */
+.lyric.is-over {
+  -webkit-mask-image: linear-gradient(180deg, #000 0, #000 calc(100% - 46px), transparent 100%);
+          mask-image: linear-gradient(180deg, #000 0, #000 calc(100% - 46px), transparent 100%);
+}
+.lyric.is-over.is-end {
+  -webkit-mask-image: none;
+          mask-image: none;
+}
+
+.lyric__stack {
+  display: grid;
+  width: 100%;
+  margin: auto 0;
 }
 
 .lyric__layer {
   grid-area: 1 / 1;
   width: 100%;
   max-width: 1100px;
+  margin-inline: auto;
   text-align: center;
   opacity: 0;
   transform: translateY(18px);
@@ -260,7 +278,7 @@ body {
 .lyric__ar {
   margin: 0;
   font-family: var(--mushaf);
-  font-size: clamp(1.7rem, 3.4vw, 3.2rem);
+  font-size: calc(clamp(1.7rem, 3.4vw, 3.2rem) * var(--fit, 1));
   font-weight: 400;
   line-height: 2.05;
   color: var(--silver);
@@ -278,7 +296,7 @@ body {
   margin: clamp(18px, 3vh, 34px) auto 0;
   max-width: 62ch;
   font-family: var(--serif);
-  font-size: clamp(1rem, 1.25vw, 1.22rem);
+  font-size: calc(clamp(1rem, 1.25vw, 1.22rem) * var(--fit-tr, 1));
   font-weight: 400; line-height: 1.68;
   color: var(--sand);
 }

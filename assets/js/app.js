@@ -167,6 +167,19 @@
 
   /* --- la ligne ------------------------------------------------------- */
 
+  /* Un verset de deux mots et un verset de mille ne peuvent pas tenir au même
+     corps. On resserre par paliers plutôt que de laisser le texte sortir du
+     cadre ; au-delà du dernier palier, la zone défile. Le plancher garde le
+     tashkīl lisible : en dessous, les signes se referment sur la lettre. */
+  function fitFor(text) {
+    var n = (text || '').length;
+    if (n <=  70) return [1,    1   ];
+    if (n <= 140) return [0.88, 0.97];
+    if (n <= 260) return [0.80, 0.94];
+    if (n <= 450) return [0.73, 0.91];
+    return             [0.68, 0.88];
+  }
+
   /* Une seule ligne est à l'écran. Deux couches se croisent en fondu :
      celle qui part s'efface pendant que celle qui vient se lève. */
   function showVerse(i) {
@@ -176,6 +189,10 @@
     var next = 1 - layer;
     var box  = el.layers[next];
     box.textContent = '';
+
+    var fit = fitFor(v.arabic);
+    box.style.setProperty('--fit', fit[0]);
+    box.style.setProperty('--fit-tr', fit[1]);
 
     var ar = document.createElement('p');
     ar.className = 'lyric__ar';
@@ -213,9 +230,31 @@
     el.layers[layer].classList.remove('is-live');
     box.classList.add('is-live');
 
+    /* Un verset qui déborde commence par son début, pas là où le précédent
+       s'était arrêté. */
+    el.lyric.scrollTop = 0;
+    /* Lire scrollHeight force le calcul de mise en page : la mesure est juste
+       tout de suite, sans dependre de requestAnimationFrame, qui se met en
+       veille dans un onglet cache ou une vue integree. Le second passage
+       rattrape le decalage laisse par le chargement des caracteres. */
+    markOverflow();
+    setTimeout(markOverflow, 80);
+
     layer = next;
     words = slots;
   }
+
+  /* Le fondu du bas ne s'allume que s'il reste vraiment quelque chose dessous,
+     et s'éteint une fois le verset lu jusqu'au bout. */
+  function markOverflow() {
+    var L = el.lyric;
+    var over = L.scrollHeight - L.clientHeight > 4;
+    L.classList.toggle('is-over', over);
+    L.classList.toggle('is-end', over && L.scrollTop + L.clientHeight >= L.scrollHeight - 4);
+  }
+  el.lyric.addEventListener('scroll', markOverflow, { passive: true });
+  window.addEventListener('resize', markOverflow);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(markOverflow);
 
   function setActive(i) {
     S.active = i;
