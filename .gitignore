@@ -1,0 +1,7 @@
+# Le skill de design impeccable est un depot tiers (Apache 2.0) copie ici pour
+# travailler ; il n'appartient pas a ce projet.
+.claude/skills/
+
+# systeme
+.DS_Store
+Thumbs.db

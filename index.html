@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sakīna — récitation du Coran</title>
+<meta name="description" content="Écouter le Coran récité, un verset à la fois, le mot en cours éclairé, avec la traduction en regard.">
+<meta name="theme-color" content="#04060b">
+<link rel="icon" type="image/svg+xml" href="assets/icon.svg">
+<link rel="apple-touch-icon" href="assets/icon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://api.quran.com">
+<link rel="preconnect" href="https://verses.quran.com">
+<link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Familjen+Grotesk:wght@400;500;600;700&family=Petrona:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <defs>
+    <g id="i-play" fill="currentColor" stroke="none"><path d="M6.6 4.3v11.4a.55.55 0 0 0 .85.46l8.9-5.7a.55.55 0 0 0 0-.92l-8.9-5.7a.55.55 0 0 0-.85.46Z"/></g>
+    <g id="i-pause" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M7.5 4.4v11.2M12.5 4.4v11.2"/></g>
+    <g id="i-prev" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M15.4 4.9v10.2a.5.5 0 0 1-.79.41l-7.2-5.1a.5.5 0 0 1 0-.82l7.2-5.1a.5.5 0 0 1 .79.41Z"/><path d="M4.9 4.6v10.8"/></g>
+    <g id="i-next" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M4.6 4.9v10.2a.5.5 0 0 0 .79.41l7.2-5.1a.5.5 0 0 0 0-.82l-7.2-5.1a.5.5 0 0 0-.79.41Z"/><path d="M15.1 4.6v10.8"/></g>
+    <g id="i-loop" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.9 8.6a3.3 3.3 0 0 1 3.3-3.3h9"/><path d="m13.7 3 2.5 2.3-2.5 2.3"/><path d="M16.1 11.4a3.3 3.3 0 0 1-3.3 3.3h-9"/><path d="M6.3 17 3.8 14.7l2.5-2.3"/></g>
+    <g id="i-volume" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9.6 3.9 6.1 6.9H3.4a.55.55 0 0 0-.55.55v5.1c0 .3.25.55.55.55h2.7l3.5 3a.5.5 0 0 0 .83-.38V4.28a.5.5 0 0 0-.83-.38Z"/><path d="M13.3 7.6a3.4 3.4 0 0 1 0 4.8"/><path d="M15.7 5.3a6.7 6.7 0 0 1 0 9.4"/></g>
+    <g id="i-mute" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9.6 3.9 6.1 6.9H3.4a.55.55 0 0 0-.55.55v5.1c0 .3.25.55.55.55h2.7l3.5 3a.5.5 0 0 0 .83-.38V4.28a.5.5 0 0 0-.83-.38Z"/><path d="m13.4 8.1 3.8 3.8"/><path d="m17.2 8.1-3.8 3.8"/></g>
+    <g id="i-book" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 5.6v10.8"/><path d="M10 5.6C8.7 4.4 6.9 3.8 4.7 3.8a.55.55 0 0 0-.55.55v9.2c0 .3.25.55.55.55 2.2 0 4 .6 5.3 1.8"/><path d="M10 5.6c1.3-1.2 3.1-1.8 5.3-1.8.3 0 .55.25.55.55v9.2c0 .3-.25.55-.55.55-2.2 0-4 .6-5.3 1.8"/></g>
+    <g id="i-voice" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3a2.35 2.35 0 0 0-2.35 2.35v4.3a2.35 2.35 0 0 0 4.7 0v-4.3A2.35 2.35 0 0 0 10 3Z"/><path d="M4.8 9.2a5.2 5.2 0 0 0 10.4 0"/><path d="M10 14.4v2.6"/></g>
+    <g id="i-scene" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.9 15.6h14.2"/><path d="m2.9 15.6 4.1-6.6 2.6 4"/><path d="m9 12.4 2.9-4.5 5.2 7.7"/><circle cx="14.3" cy="5.3" r="1.85"/></g>
+    <g id="i-search" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="8.9" cy="8.9" r="5.3"/><path d="m12.9 12.9 4.2 4.2"/></g>
+    <g id="i-close" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="m5.4 5.4 9.2 9.2"/><path d="m14.6 5.4-9.2 9.2"/></g>
+    <g id="i-check" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m4.6 10.3 3.5 3.5 7.3-7.7"/></g>
+    <g id="i-expand" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7.6 3.2H3.2v4.4"/><path d="M12.4 3.2h4.4v4.4"/><path d="M16.8 12.4v4.4h-4.4"/><path d="M3.2 12.4v4.4h4.4"/></g>
+    <g id="i-shrink" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.2 7.6h4.4V3.2"/><path d="M16.8 7.6h-4.4V3.2"/><path d="M12.4 12.4h4.4v4.4"/><path d="M7.6 16.8v-4.4H3.2"/></g>
+  </defs>
+</svg>
+
+<div class="stage" aria-hidden="true">
+  <video class="scene" id="scene-a" muted playsinline preload="auto" disablepictureinpicture></video>
+  <video class="scene" id="scene-b" muted playsinline preload="auto" disablepictureinpicture></video>
+  <div class="stage__veil"></div>
+</div>
+
+<a class="skip" href="#play">Aller aux commandes</a>
+
+<header class="masthead" id="masthead">
+  <div class="brand">
+    <svg class="brand__mark" viewBox="0 0 20 20" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round"><path d="M14.6 10.2a5.1 5.1 0 0 1-6.4-6.4 5.4 5.4 0 1 0 6.4 6.4Z"/><path d="M3 15.4c1.4-.9 2.6-.9 4 0s2.6.9 4 0 2.6-.9 4 0"/></g></svg>
+    <span class="brand__name">Sakīna</span>
+  </div>
+
+  <nav class="pickers" aria-label="Choix de la récitation">
+    <button type="button" class="picker" data-pane="surahs" aria-haspopup="dialog" aria-expanded="false">
+      <svg class="ico" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-book"/></svg>
+      <span class="picker__label">Sourate</span>
+      <span class="picker__value" id="v-surah">Al-Fātiḥah</span>
+    </button>
+    <button type="button" class="picker" data-pane="reciters" aria-haspopup="dialog" aria-expanded="false">
+      <svg class="ico" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-voice"/></svg>
+      <span class="picker__label">Récitateur</span>
+      <span class="picker__value" id="v-reciter">Mishari al-ʿAfasy</span>
+    </button>
+    <button type="button" class="picker picker--tail" data-pane="settings" aria-haspopup="dialog" aria-expanded="false">
+      <svg class="ico" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-scene"/></svg>
+      <span class="picker__label">Scène</span>
+      <span class="picker__value" id="v-scene">Automatique</span>
+    </button>
+  </nav>
+</header>
+
+<main class="reader" id="reader">
+  <div class="surahhead" id="surahhead">
+    <h1 class="surahhead__ar" lang="ar" dir="rtl" id="sh-ar">الفاتحة</h1>
+    <p class="surahhead__meta" id="sh-meta">Sourate 1 · L’ouverture · 7 versets · Mecquoise</p>
+    <p class="surahhead__bism" lang="ar" dir="rtl" id="sh-bism" hidden>بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
+  </div>
+
+  <div class="lyric" id="lyric">
+    <div class="lyric__layer" id="layer-0"></div>
+    <div class="lyric__layer" id="layer-1"></div>
+  </div>
+
+  <div class="hint" id="hint" hidden>
+    <p class="hint__text" id="hint-text"></p>
+    <button type="button" class="btn btn--line" id="hint-retry" hidden>Réessayer</button>
+  </div>
+</main>
+
+<footer class="transport" id="transport">
+  <div class="rail" aria-hidden="true"><span class="rail__fill" id="ayah-fill"></span></div>
+
+  <div class="transport__row">
+    <div class="transport__left">
+      <span class="counter"><b id="c-now">1</b><span class="counter__sep">/</span><span id="c-all">7</span></span>
+      <input type="range" class="seek" id="seek" min="0" max="6" step="1" value="0" aria-label="Aller à un verset">
+    </div>
+
+    <div class="transport__mid">
+      <button type="button" class="ctl" id="prev" aria-label="Verset précédent" title="Verset précédent (←)">
+        <svg class="ico" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-prev"/></svg>
+      </button>
+      <button type="button" class="ctl ctl--play" id="play" aria-label="Écouter" title="Écouter (Espace)">
+        <svg class="ico ico--play" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-play"/></svg>
+        <svg class="ico ico--pause" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-pause"/></svg>
+      </button>
+      <button type="button" class="ctl" id="next" aria-label="Verset suivant" title="Verset suivant (→)">
+        <svg class="ico" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-next"/></svg>
+      </button>
+    </div>
+
+    <div class="transport__right">
+      <button type="button" class="ctl ctl--toggle" id="loop" aria-pressed="false" aria-label="Répéter le verset" title="Répéter le verset (R)">
+        <svg class="ico" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-loop"/></svg>
+      </button>
+      <div class="speed" role="group" aria-label="Vitesse de récitation">
+        <button type="button" class="speed__step" data-rate="0.75">0,75×</button>
+        <button type="button" class="speed__step is-on" data-rate="1">1×</button>
+        <button type="button" class="speed__step" data-rate="1.25">1,25×</button>
+      </div>
+      <div class="volume">
+        <button type="button" class="ctl" id="mute" aria-pressed="false" aria-label="Couper le son" title="Couper le son (M)">
+          <svg class="ico ico--vol" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-volume"/></svg>
+          <svg class="ico ico--muted" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-mute"/></svg>
+        </button>
+        <input type="range" class="volume__rail" id="vol" min="0" max="100" value="90" aria-label="Volume">
+      </div>
+      <button type="button" class="ctl ctl--toggle" id="full" aria-pressed="false" aria-label="Plein écran" title="Plein écran (F)">
+        <svg class="ico ico--expand" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-expand"/></svg>
+        <svg class="ico ico--shrink" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-shrink"/></svg>
+      </button>
+    </div>
+  </div>
+</footer>
+
+<div class="scrim" id="scrim" hidden></div>
+
+<aside class="drawer" id="drawer" role="dialog" aria-modal="false" aria-labelledby="drawer-title" hidden>
+  <div class="drawer__head">
+    <h2 class="drawer__title" id="drawer-title">Sourate</h2>
+    <button type="button" class="ctl" id="drawer-close" aria-label="Fermer le panneau">
+      <svg class="ico" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-close"/></svg>
+    </button>
+  </div>
+
+  <section class="pane" data-pane="surahs" hidden>
+    <div class="field">
+      <svg class="ico field__ico" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-search"/></svg>
+      <input type="search" id="surah-search" class="field__input" placeholder="Chercher une sourate ou un numéro" aria-label="Chercher une sourate">
+    </div>
+    <ol class="list" id="surah-list"></ol>
+  </section>
+
+  <section class="pane" data-pane="reciters" hidden>
+    <p class="pane__note">Chaque voix porte son propre découpage mot à mot.</p>
+    <ol class="list" id="reciter-list"></ol>
+  </section>
+
+  <section class="pane" data-pane="settings" hidden>
+    <h3 class="pane__head">Scène</h3>
+    <ol class="list" id="scene-list"></ol>
+
+    <h3 class="pane__head">Traduction</h3>
+    <ol class="list" id="trans-list"></ol>
+
+    <h3 class="pane__head">Clavier</h3>
+    <dl class="keys">
+      <div><dt><kbd>Espace</kbd></dt><dd>Écouter / suspendre</dd></div>
+      <div><dt><kbd>←</kbd><kbd>→</kbd></dt><dd>Verset précédent / suivant</dd></div>
+      <div><dt><kbd>R</kbd></dt><dd>Répéter le verset</dd></div>
+      <div><dt><kbd>M</kbd></dt><dd>Couper le son</dd></div>
+      <div><dt><kbd>F</kbd></dt><dd>Plein écran</dd></div>
+      <div><dt><kbd>Échap</kbd></dt><dd>Fermer ce panneau</dd></div>
+    </dl>
+
+    <h3 class="pane__head">Crédits</h3>
+    <div class="credits">
+      <p>Texte, traductions, récitations et minutage mot à mot :
+        <a href="https://quran.com" target="_blank" rel="noopener noreferrer">Quran.com</a>.</p>
+      <p>Plans de fond : <a href="https://mixkit.co" target="_blank" rel="noopener noreferrer">Mixkit</a>.</p>
+      <p class="credits__sig">Conçu et réalisé par
+        <a href="https://maherbouchrara.me" target="_blank" rel="noopener noreferrer">Maher Bouchrara</a>
+        <span class="credits__url">maherbouchrara.me</span>
+      </p>
+    </div>
+  </section>
+</aside>
+
+<script src="assets/js/api.js"></script>
+<script src="assets/js/player.js"></script>
+<script src="assets/js/scene.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>
