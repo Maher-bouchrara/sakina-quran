@@ -130,13 +130,10 @@ Conçu et réalisé par **Maher Bouchrara** — [maherbouchrara.me](https://mahe
 Dans le site, la signature est affichée à deux endroits, toutes deux cliquables
 vers le portfolio :
 
-- **le bandeau**, à côté du nom du site, à partir de 900 px de large ;
-- **le rail de lecture**, en bas à gauche, en dessous de 900 px — le bandeau y est
-  entièrement pris par les sélecteurs, la signature descend donc là où l'œil cherche
-  une mention d'auteur. Sous 460 px le « par » tombe, il ne reste que le nom ;
-- **Scène → Crédits**, en bas du panneau — à toutes les tailles.
-
-Une seule des deux premières est visible à la fois : jamais de doublon à l'écran.
+- **en bas de chaque page**, sur sa propre bande sous les commandes :
+  « © Maher Bouchrara ». Elle ne dépend d'aucune rangée qui se réorganise selon la
+  largeur, donc elle est là à toutes les tailles, du téléphone au grand écran ;
+- **Scène → Crédits**, avec les sources du texte et des vidéos.
 
 ## Limites connues
 

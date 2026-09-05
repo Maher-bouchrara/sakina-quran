@@ -99,6 +99,18 @@ si l'une change, l'autre doit suivre, sinon un noir apparaît entre les plans.
 - Les surfaces du navigateur sont habillées : sélection, curseur de saisie,
   barres de défilement, anneau de focus, chiffres tabulaires.
 
+## La signature
+
+« © Maher Bouchrara » occupe **sa propre bande**, sous les commandes, séparée par le
+même filet d'un pixel que le reste. Ce choix vient d'un échec : placée d'abord dans le
+bandeau, puis glissée dans la rangée des commandes, elle disparaissait à certaines
+largeurs parce que ces deux zones se réorganisent selon la place disponible. Une bande
+à elle seule ne se réorganise pas : elle est là partout, ou nulle part.
+
+`--row-h` mesure la rangée des commandes, `--rail-bot` le rail entier, signature
+comprise. C'est `--rail-bot` qui tient le bas du lecteur à distance ; confondre les
+deux ferait passer la ligne récitée sous le rail.
+
 ## Plein écran
 
 Le plein écran n'est pas seulement une fenêtre plus grande : après 2,8 secondes

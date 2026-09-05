@@ -33,7 +33,8 @@
 
   /* metrics */
   --rail-top: 58px;
-  --rail-bot: 76px;
+  --row-h:    76px;   /* la rangee des commandes */
+  --rail-bot: 110px;  /* le rail entier, signature comprise */
   --gut: clamp(18px, 4vw, 56px);
 
   color-scheme: dark;
@@ -158,22 +159,6 @@ body {
   letter-spacing: .11em; text-transform: uppercase;
   color: var(--silver);
 }
-
-/* La signature vit dans le bandeau, au meme rang que les libelles de commande :
-   presente sur chaque page, jamais en travers du verset. */
-.brand__by {
-  flex: none;
-  padding-left: 11px;
-  border-left: 1px solid var(--line);
-  font-size: 9.5px; letter-spacing: .14em; text-transform: uppercase;
-  color: var(--silver-3); white-space: nowrap;
-}
-.brand__by a {
-  color: var(--silver-2);
-  text-decoration: none;
-  transition: color .22s var(--ease);
-}
-.brand__by a:hover { color: var(--moon); }
 
 .pickers { margin-left: auto; display: flex; align-items: stretch; height: 100%; }
 
@@ -347,7 +332,7 @@ body {
 }
 
 .transport__row {
-  height: calc(var(--rail-bot) - 1px);
+  height: calc(var(--row-h) - 1px);
   display: grid; grid-template-columns: 1fr auto 1fr;
   align-items: center; gap: 16px;
   padding: 0 var(--gut);
@@ -363,11 +348,6 @@ body {
 }
 .counter b { font-size: 14px; font-weight: 600; color: var(--silver); }
 .counter__sep { color: var(--moon-deep); }
-
-/* Le bandeau porte la signature tant qu'il a de la place. Sous 900 px il est
-   entierement pris par les selecteurs : elle descend alors dans le rail, la ou
-   l'oeil cherche une mention d'auteur. Une seule des deux est visible a la fois. */
-.transport__by { display: none; }
 
 .ico { width: 19px; height: 19px; display: block; }
 
@@ -437,6 +417,23 @@ body.is-playing .ctl--play { border-color: var(--moon); box-shadow: 0 4px 26px -
   width: 9px; height: 9px; border-radius: 50%; background: var(--moon); border: 0;
 }
 .seek:disabled { opacity: .35; cursor: not-allowed; }
+
+/* Le credit tient sa propre bande, sous les commandes : il ne depend d'aucune
+   rangee qui se reorganise selon la largeur, donc il est la a toutes les tailles. */
+.sign {
+  margin: 0;
+  padding: 10px var(--gut) 12px;
+  border-top: 1px solid var(--line);
+  text-align: center;
+  font-size: 10px; letter-spacing: .15em; text-transform: uppercase;
+  color: var(--silver-3);
+}
+.sign a {
+  color: var(--silver-2);
+  text-decoration: none;
+  transition: color .22s var(--ease);
+}
+.sign a:hover, .sign a:focus-visible { color: var(--moon); }
 
 .volume { display: flex; align-items: center; gap: 4px; }
 .volume .ico--muted { display: none; }
@@ -611,9 +608,9 @@ kbd {
    ============================================================ */
 
 @media (max-width: 900px) {
-  :root { --rail-top: 54px; --rail-bot: 128px; }
+  :root { --rail-top: 54px; --row-h: 128px; --rail-bot: 172px; }
 
-  .brand__name, .brand__by { display: none; }
+  .brand__name { display: none; }
 
   .pickers { width: 100%; margin-left: 12px; }
   .picker { flex: 1; min-width: 0; padding: 0 12px; overflow: hidden; }
@@ -633,20 +630,6 @@ kbd {
   }
   .seek { max-width: none; }
   .volume__rail { width: 52px; }
-
-  .transport__by {
-    display: block;
-    flex: none;
-    margin-right: auto;          /* pousse les commandes a droite, en bloc */
-    font-size: 9.5px; letter-spacing: .14em; text-transform: uppercase;
-    color: var(--silver-3); white-space: nowrap;
-  }
-  .transport__by a {
-    color: var(--silver-2);
-    text-decoration: none;
-    transition: color .22s var(--ease);
-  }
-  .transport__by a:hover { color: var(--moon); }
 }
 
 @media (max-width: 700px) {
@@ -662,8 +645,6 @@ kbd {
 @media (max-width: 460px) {
   .picker .ico { display: none; }
   .speed { display: none; }
-  .transport__by-pre { display: none; }
-  .transport__by { letter-spacing: .1em; }
 }
 
 @media (prefers-reduced-motion: reduce) {
