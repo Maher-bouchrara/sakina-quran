@@ -12,25 +12,19 @@ Site statique. Aucune installation, aucune clé d'API, aucune dépendance à ins
 
 ## En ligne
 
-Projet Vercel **sakina-quran** : <https://sakina-quran.vercel.app>
+Projet Vercel **sakina-quran**, relie au depot : chaque push sur `main` declenche
+un deploiement de production. Adresse : <https://sakina-quran.vercel.app>
 
-Trois reglages restent a faire depuis le tableau de bord Vercel. Le connecteur
-Vercel utilise ici n'a acces qu'a l'endpoint de deploiement : toute lecture ou
-gestion de projet repond 403, donc rien de ce qui suit ne peut etre automatise.
+Un dernier reglage reste a faire, et il ne peut pas etre automatise (le connecteur
+Vercel de l'atelier n'a acces qu'a l'endpoint de deploiement ; toute gestion de
+projet repond 403) :
 
-**1. Relier le depot au projet.** Projet `sakina-quran` > Settings > Git >
-Connect Git Repository > `Maher-bouchrara/sakina-quran`, branche `main`.
-Chaque push redeploie ensuite tout seul.
+> **Ouvrir l'acces.** Le site redirige encore vers la connexion Vercel pour qui
+> n'est pas signe dans le compte. Projet `sakina-quran` > Settings >
+> Deployment Protection > Vercel Authentication > **Disabled** > Save.
 
-**2. Rendre le site public.** Il redirige encore vers la connexion Vercel pour
-qui n'est pas signe dans le compte : Settings > Deployment Protection >
-Vercel Authentication > **Disabled** > Save.
-
-**3. Supprimer le projet `quran`** (essai de renommage) : Settings > Advanced >
-Delete Project. Ne pas supprimer `sakina-quran`, qui porte l'adresse.
-
-Pour une adresse plus courte, `quran.vercel.app` appartient a un autre compte,
-mais `quran.maherbouchrara.me` est a vous : Settings > Domains, puis un CNAME.
+Pour une adresse plus courte : `quran.vercel.app` appartient a un autre compte,
+mais `quran.maherbouchrara.me` est a vous (Settings > Domains, puis un CNAME).
 
 ## Lancer en local
 
@@ -142,7 +136,12 @@ Texte, traductions, récitations et minutage mot à mot : **[Quran.com](https://
 
 Conçu et réalisé par **Maher Bouchrara** — [maherbouchrara.me](https://maherbouchrara.me).
 
-Les crédits sont aussi affichés dans le site : bouton **Scène** → section **Crédits**.
+Dans le site, la signature est affichée à deux endroits, toutes deux cliquables
+vers le portfolio :
+
+- **le bandeau**, à côté du nom du site — « par Maher Bouchrara » (à partir de 900 px
+  de large ; en dessous le bandeau est entièrement pris par les sélecteurs) ;
+- **Scène → Crédits**, en bas du panneau — à toutes les tailles d'écran.
 
 ## Limites connues
 
