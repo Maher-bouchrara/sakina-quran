@@ -12,9 +12,9 @@ Site statique. Aucune installation, aucune clé d'API, aucune dépendance à ins
 
 ## En ligne
 
-<https://sakina-quran-weld.vercel.app>
+<https://the-sakina-quran.vercel.app>
 
-Projet Vercel **sakina-quran**, relie au depot : chaque push sur `main` declenche
+Projet Vercel **the-sakina-quran**, relie au depot : chaque push sur `main` declenche
 un deploiement de production.
 
 ## Lancer en local
