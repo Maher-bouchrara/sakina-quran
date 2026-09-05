@@ -6,27 +6,31 @@ au-dessus d'une scène de nature filmée qui se renouvelle en fondu.
 
 Site statique. Aucune installation, aucune clé d'API, aucune dépendance à installer.
 
+## Depot
+
+<https://github.com/Maher-bouchrara/sakina-quran> — branche `main`.
+
 ## En ligne
 
-Deploye sur Vercel, projet **quran** :
-<https://quran-maher-bouchraras-projects.vercel.app>
+Projet Vercel **sakina-quran** : <https://sakina-quran.vercel.app>
 
-Deux reglages restent a faire depuis le tableau de bord Vercel ; le jeton du
-connecteur peut deployer mais pas modifier les reglages du projet (403).
+Trois reglages restent a faire depuis le tableau de bord Vercel. Le connecteur
+Vercel utilise ici n'a acces qu'a l'endpoint de deploiement : toute lecture ou
+gestion de projet repond 403, donc rien de ce qui suit ne peut etre automatise.
 
-**1. Rendre le site public.** Il repond aujourd'hui par une redirection vers la
-connexion Vercel : Settings > Deployment Protection > Vercel Authentication >
-**Disabled** > Save.
+**1. Relier le depot au projet.** Projet `sakina-quran` > Settings > Git >
+Connect Git Repository > `Maher-bouchrara/sakina-quran`, branche `main`.
+Chaque push redeploie ensuite tout seul.
 
-**2. Raccourcir l'adresse.** Le suffixe `-maher-bouchraras-projects` est ajoute
-automatiquement parce que `quran.vercel.app` appartient deja a un autre compte
-Vercel. Pour une adresse courte, ajouter un domaine dans Settings > Domains :
+**2. Rendre le site public.** Il redirige encore vers la connexion Vercel pour
+qui n'est pas signe dans le compte : Settings > Deployment Protection >
+Vercel Authentication > **Disabled** > Save.
 
-- `quran.maherbouchrara.me` — le plus propre, et il est a vous (un CNAME a poser) ;
-- `coran.vercel.app`, `quran-fr.vercel.app`, `quranfr.vercel.app`,
-  `sakinaquran.vercel.app` — verifies libres le 5 septembre 2026.
+**3. Supprimer le projet `quran`** (essai de renommage) : Settings > Advanced >
+Delete Project. Ne pas supprimer `sakina-quran`, qui porte l'adresse.
 
-Le projet `sakina-quran` du premier essai peut etre supprime.
+Pour une adresse plus courte, `quran.vercel.app` appartient a un autre compte,
+mais `quran.maherbouchrara.me` est a vous : Settings > Domains, puis un CNAME.
 
 ## Lancer en local
 
