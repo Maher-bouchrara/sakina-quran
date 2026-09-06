@@ -73,6 +73,7 @@
     volume:  read('volume', 0.9),
     muted:   read('muted', false),
     tajweed: read('tajweed', true),
+    lineTr:  read('lineTr', true),
     active:  0,
     token:   0,
     seeking: false
@@ -277,9 +278,19 @@
     var runs = S.tajweed ? tajweedWords(S.tajweedText[v.key], v.words.length) : null;
 
     var slots = [];
-    var line = document.createElement('span');
-    line.className = 'ln';
-    ar.appendChild(line);
+    var lines = [];          /* {el, ar, mots[]} pour poser la glose ensuite */
+
+    function openLine() {
+      var el2 = document.createElement('span');
+      el2.className = 'ln';
+      var inner = document.createElement('span');
+      inner.className = 'ln__ar';
+      el2.appendChild(inner);
+      ar.appendChild(el2);
+      lines.push({ el: el2, ar: inner, mots: [] });
+      return inner;
+    }
+    var line = openLine();
 
     v.words.forEach(function (w, k) {
       var span = document.createElement('span');
@@ -300,15 +311,14 @@
 
       line.appendChild(span);
       slots.push(span);
+      lines[lines.length - 1].mots.push(w);
 
       /* Le verset se coupe la ou le recitant reprend son souffle : chaque
          marque de pause ferme la ligne. Un verset sans marque reste d'un seul
          tenant, comme avant. */
       if (k < v.words.length - 1) {
         if (WAQF.test(w.text)) {
-          line = document.createElement('span');
-          line.className = 'ln';
-          ar.appendChild(line);
+          line = openLine();
         } else {
           line.appendChild(document.createTextNode(' '));
         }
@@ -322,6 +332,24 @@
       line.appendChild(document.createTextNode(' '));
       line.appendChild(num);
     }
+
+    /* La glose sous chaque segment n'a de sens que si le verset est divise :
+       sur un verset d'un seul tenant, la traduction complete en dessous dit
+       deja tout. */
+    if (S.lineTr && lines.length > 1) {
+      lines.forEach(function (l) {
+        var g = l.mots.map(function (w) { return w.en; })
+                      .filter(Boolean).join(' ').trim();
+        if (!g) return;
+        var p = document.createElement('span');
+        p.className = 'ln__tr';
+        p.lang = 'en';
+        p.dir = 'ltr';
+        p.textContent = g;
+        l.el.appendChild(p);
+      });
+    }
+
     box.appendChild(ar);
 
     if (v.trans) {
@@ -747,6 +775,27 @@
     });
   }
 
+  function buildLineTr() {
+    var list = $('linetr-list');
+    list.textContent = '';
+    [
+      { on: true,  name: 'Mot a mot, sous chaque ligne',
+        sub: 'En anglais : aucune source ne fournit le mot a mot en francais' },
+      { on: false, name: 'Aucune',
+        sub: 'La traduction reste sous le verset entier' }
+    ].forEach(function (opt) {
+      var o = option({ name: opt.name, sub: opt.sub, on: S.lineTr === opt.on });
+      o.btn.addEventListener('click', function () {
+        if (S.lineTr === opt.on) return;
+        S.lineTr = opt.on;
+        save('lineTr', opt.on);
+        buildLineTr();
+        showVerse(S.active);
+      });
+      list.appendChild(o.li);
+    });
+  }
+
   function buildTajweed() {
     var list = $('tajweed-list'), leg = $('tajweed-legend');
     list.textContent = '';
@@ -854,6 +903,7 @@
     document.body.classList.toggle('is-tajweed', !!S.tajweed);
     buildScenes();
     buildTranslations();
+    buildLineTr();
     buildTajweed();
     applyScene();
     setHint('Chargement…');

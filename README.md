@@ -33,9 +33,12 @@ Un petit serveur reste plus sûr (certains navigateurs durcissent `file://`).
 
 - **Une ligne à la fois.** Le verset récité occupe le centre de la page. Quand la
   récitation avance, la ligne suivante se lève pendant que la précédente s'efface.
-- **Les longs versets se lisent ligne par ligne.** Le verset se coupe aux marques de
-  pause du texte uthmani — là où le récitant reprend son souffle. La ligne récitée
-  porte un filet en marge et vient à l'écran d'elle-même quand le verset déborde.
+- **Les longs versets se lisent ligne par ligne, chacune avec sa traduction.**
+  Le verset se coupe aux marques de pause du texte uthmani — là où le récitant reprend
+  son souffle — et chaque segment porte dessous le mot à mot **des mots exactement
+  qu'il contient**. La ligne récitée porte un filet en marge et vient à l'écran
+  d'elle-même quand le verset déborde. Un verset d'un seul tenant n'en reçoit pas :
+  la traduction complète dessous suffit.
 - **Tajwīd coloré.** Chaque règle prend sa teinte dans le texte, avec sa légende ;
   le mot récité s'éclaircit sans perdre ses couleurs. Se désactive en un clic.
 - **Le mot en cours s'allume**, et les mots déjà lus restent bleutés : on suit sans
@@ -147,9 +150,11 @@ vers le portfolio :
 - La position de lecture n'est pas mémorisée d'une sourate à l'autre.
 - Il n'y a plus de liste des versets à l'écran : la navigation passe par le curseur
   du rail de transport et par le sélecteur de sourate.
-- **Pas de traduction ligne par ligne.** L'API ne renvoie qu'un seul texte par verset
-  (`{id, resource_id, text}`) : aucun découpage n'accompagne la traduction. Répartir
-  le français en face des segments arabes reviendrait à l'inventer, et placerait des
-  mots sous un arabe qui ne les porte pas. La traduction reste donc sous le verset
-  entier. La seule découpe réellement disponible est le mot à mot **anglais**
-  (`words[].translation`), qui est une glose, pas une traduction.
+- **La traduction par ligne est en anglais**, et ce n'est pas un choix.
+  Le seul texte aligné sur les mots est `words[].translation`, qui n'existe qu'en
+  anglais : `word_translation_language` est accepté par l'API puis ignoré — testé sur
+  `ur`, `id`, `bn`, `tr`, `ru`, `fr`, `es`, `de`, tous renvoient l'anglais. Aucune
+  autre source publique ne comble le manque (quranwbw répond 403 ; quranenc et
+  alquran.cloud sont au niveau du verset). Découper le français d'Hamidullah pour le
+  faire correspondre reviendrait à l'inventer, et placerait des mots sous un arabe qui
+  ne les porte pas. Le français reste donc sous le verset entier, exact.

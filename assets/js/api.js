@@ -72,7 +72,13 @@ window.API = (function () {
           for (var i = 0; i < v.words.length; i++) {
             var w = v.words[i];
             if (w.char_type_name === 'end') { mark = w.text_uthmani || w.text || ''; continue; }
-            words.push({ pos: w.position, text: w.text_uthmani || w.text || '' });
+            words.push({
+              pos:  w.position,
+              text: w.text_uthmani || w.text || '',
+              /* Le mot a mot n'existe qu'en anglais : `word_translation_language`
+                 est accepte puis ignore, quelle que soit la langue demandee. */
+              en:   (w.translation && w.translation.text) || ''
+            });
           }
 
           var tr = (v.translations && v.translations[0] && v.translations[0].text) || '';

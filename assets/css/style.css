@@ -318,6 +318,24 @@ body {
 .ln.is-now { opacity: 1; }
 .lyric__ar:not(:has(.ln.is-now)) .ln { opacity: 1; }
 
+/* Trois voix, jamais melangees : l'arabe en argent, le mot a mot en argent
+   italique et plus petit, le sable reserve a la traduction francaise du verset.
+   La couleur dit donc toujours de quel texte il s'agit. */
+.ln__ar { display: block; }
+
+.ln__tr {
+  display: block;
+  margin: .1em 0 1.15em;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: calc(clamp(.82rem, .95vw, .95rem) * var(--fit-tr, 1));
+  line-height: 1.5;
+  letter-spacing: .01em;
+  color: var(--silver-2);
+  text-align: center;
+}
+.ln:last-child .ln__tr { margin-bottom: .2em; }
+
 .ln.is-now::before {
   content: "";
   position: absolute;

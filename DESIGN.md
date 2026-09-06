@@ -148,6 +148,13 @@ La ligne récitée se signale par **un filet en marge**, du côté où commence 
 Un premier essai atténuait les autres lignes à 0,62 d'opacité : la teinte de tajwīd la
 plus sombre y tombait à 3,0:1, sous le plancher. Un filet ne coûte aucun contraste.
 
+Sous chaque segment vient le mot à mot **des mots exactement qu'il contient** — donc
+un texte aligné, pas un découpage inventé. Cela ajoute une troisième voix, et la règle
+des deux voix tient quand même parce que la couleur continue de dire de quel texte il
+s'agit : l'arabe en argent, le mot à mot en argent italique et plus petit, et le sable
+**réservé** à la traduction française du verset. Un verset d'un seul tenant ne reçoit
+pas de mot à mot : la traduction dessous dirait déjà la même chose.
+
 ## La signature
 
 « © Maher Bouchrara » occupe **sa propre bande**, sous les commandes, séparée par le
