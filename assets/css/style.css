@@ -301,6 +301,33 @@ body {
   color: var(--sand);
 }
 
+/* --- les lignes du verset --- */
+
+/* Un long verset se lit par souffles : chaque marque de pause ouvre une ligne.
+   La ligne recitee se signale par un filet en marge, du cote ou commence la
+   lecture — pas par l'effacement des autres. Un premier essai les mettait a
+   0,62 d'opacite : la teinte la plus sombre du tajwid y tombait a 3,0:1, sous
+   le plancher. Un filet ne coute aucun contraste. */
+.ln {
+  display: block;
+  position: relative;
+  padding-inline-start: 16px;
+  opacity: .88;
+  transition: opacity .35s var(--ease);
+}
+.ln.is-now { opacity: 1; }
+.lyric__ar:not(:has(.ln.is-now)) .ln { opacity: 1; }
+
+.ln.is-now::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  top: .42em; bottom: .42em;
+  width: 2px; border-radius: 1px;
+  background: var(--moon);
+  box-shadow: 0 0 12px rgba(127, 180, 255, .55);
+}
+
 /* --- le mot en cours --- */
 
 .w {
@@ -315,6 +342,43 @@ body {
   color: #fff;
   text-shadow: 0 0 26px rgba(127, 180, 255, .6), 0 1px 0 rgba(4, 6, 11, .6);
 }
+
+/* ============================================================
+   Tajwid — la couleur porte une regle, pas une decoration
+   ============================================================ */
+
+/* Teintes de la convention des mushafs colores : bleus pour les allongements,
+   orange pour la ghunna, violet pour l'ikhfa, turquoise pour l'iqlab, rouge
+   pour la qalqala, gris pour ce qui ne se prononce pas. Eclaircies pour tenir
+   sur l'encre, ou les teintes d'imprimerie disparaitraient. */
+.tj--madda_normal        { color: #7fd4ff; }
+.tj--madda_permissible   { color: #63a8ff; }
+.tj--madda_obligatory    { color: #7d8cff; }
+.tj--madda_necessary     { color: #a98cff; }
+
+.tj--ghunnah             { color: #ffb35c; }
+.tj--idgham_ghunnah      { color: #ffcf8f; }
+.tj--idgham_wo_ghunnah   { color: #d8c3a2; }
+.tj--idgham_shafawi      { color: #edd09a; }
+.tj--idgham_mutajanisayn { color: #d8c3a2; }
+.tj--idgham_mutaqaribayn { color: #d8c3a2; }
+
+.tj--ikhafa              { color: #c896ff; }
+.tj--ikhafa_shafawi      { color: #b47ff0; }
+.tj--iqlab               { color: #6fe3d0; }
+.tj--qalaqah             { color: #ff8a8a; }
+
+.tj--ham_wasl,
+.tj--laam_shamsiyah,
+.tj--slnt                { color: #8a93a3; }
+
+/* En mode tajwid, le mot recite s'eclaircit sans perdre ses teintes : les
+   ecraser en blanc effacerait la regle au moment ou elle se prononce. */
+body.is-tajweed .w.is-lit {
+  color: var(--silver);
+  filter: brightness(1.45) saturate(1.15);
+}
+body.is-tajweed .w.is-read { color: var(--silver); opacity: .82; }
 
 /* --- états --- */
 
@@ -567,6 +631,22 @@ body.is-full.is-idle { cursor: none; }
 .opt.is-on .opt__ar { color: var(--moon-soft); }
 .opt__check { flex: none; width: 17px; height: 17px; color: var(--moon); opacity: 0; }
 .opt.is-on .opt__check { opacity: 1; }
+
+/* Une couleur sans nom n'apprend rien. */
+.legend { margin: 0; padding: 4px 24px 8px; }
+.legend[hidden] { display: none; }
+.legend > div {
+  display: flex; align-items: baseline; gap: 10px;
+  padding: 5px 0; border-bottom: 1px solid rgba(127, 180, 255, .07);
+}
+.legend__key {
+  flex: none; width: 12.5em; margin: 0;
+  font-family: var(--ui); font-size: 12px; font-weight: 500;
+}
+.legend dd {
+  margin: 0; font-size: 11px; color: var(--silver-3);
+  font-family: var(--serif); font-style: italic;
+}
 
 .keys { margin: 0; padding: 4px 24px 32px; }
 .keys > div {

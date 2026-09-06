@@ -91,6 +91,17 @@ window.API = (function () {
       });
     },
 
+    /* Le texte annoté des règles de tajwīd, sourate entière.
+       Les règles arrivent en balises <tajweed class="..."> autour de fragments
+       qui peuvent chevaucher la frontière entre deux mots. */
+    tajweed: function (chapter) {
+      return get('/quran/verses/uthmani_tajweed?chapter_number=' + chapter).then(function (d) {
+        var by = {};
+        d.verses.forEach(function (v) { by[v.verse_key] = v.text_uthmani_tajweed || ''; });
+        return by;
+      });
+    },
+
     /* Les fichiers audio d'une sourate pour une voix, avec minutage des mots. */
     recitation: function (reciterId, chapter) {
       var q = '/recitations/' + reciterId + '/by_chapter/' + chapter +

@@ -33,8 +33,11 @@ Un petit serveur reste plus sûr (certains navigateurs durcissent `file://`).
 
 - **Une ligne à la fois.** Le verset récité occupe le centre de la page. Quand la
   récitation avance, la ligne suivante se lève pendant que la précédente s'efface.
-- **Les longs versets tiennent quand même.** Le corps se resserre par paliers selon
-  la longueur ; au-delà, la zone défile et son bas s'estompe pour signaler la suite.
+- **Les longs versets se lisent ligne par ligne.** Le verset se coupe aux marques de
+  pause du texte uthmani — là où le récitant reprend son souffle. La ligne récitée
+  porte un filet en marge et vient à l'écran d'elle-même quand le verset déborde.
+- **Tajwīd coloré.** Chaque règle prend sa teinte dans le texte, avec sa légende ;
+  le mot récité s'éclaircit sans perdre ses couleurs. Se désactive en un clic.
 - **Le mot en cours s'allume**, et les mots déjà lus restent bleutés : on suit sans
   chercher où l'on en est.
 - **Choix du récitateur** — les 12 voix de quran.com qui disposent d'un minutage
@@ -98,6 +101,7 @@ réelles, les pièges rencontrés et le trafic engendré. Résumé :
 | Les 114 sourates, noms français | `GET /chapters?language=fr` |
 | Les récitateurs | `GET /resources/recitations` |
 | Texte uthmani + mots + traduction | `GET /verses/by_chapter/{n}?words=true&translations={id}` |
+| Texte annoté des règles de tajwīd | `GET /quran/verses/uthmani_tajweed?chapter_number={n}` |
 | Fichiers audio + minutage des mots | `GET /recitations/{r}/by_chapter/{n}?fields=segments` |
 
 Base : `https://api.quran.com/api/v4` — audio servi depuis `https://verses.quran.com`.
@@ -143,5 +147,9 @@ vers le portfolio :
 - La position de lecture n'est pas mémorisée d'une sourate à l'autre.
 - Il n'y a plus de liste des versets à l'écran : la navigation passe par le curseur
   du rail de transport et par le sélecteur de sourate.
-- La traduction mot à mot fournie par l'API n'existe qu'en anglais ; le site n'affiche
-  donc que la traduction du verset entier.
+- **Pas de traduction ligne par ligne.** L'API ne renvoie qu'un seul texte par verset
+  (`{id, resource_id, text}`) : aucun découpage n'accompagne la traduction. Répartir
+  le français en face des segments arabes reviendrait à l'inventer, et placerait des
+  mots sous un arabe qui ne les porte pas. La traduction reste donc sous le verset
+  entier. La seule découpe réellement disponible est le mot à mot **anglais**
+  (`words[].translation`), qui est une glose, pas une traduction.

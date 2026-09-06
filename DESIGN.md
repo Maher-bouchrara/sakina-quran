@@ -123,6 +123,31 @@ La mesure du débordement lit `scrollHeight`, ce qui force le calcul de mise en 
 juste tout de suite, sans dépendre de `requestAnimationFrame` — qui se met en veille
 dans un onglet caché ou une vue intégrée, et laisserait le fondu éteint.
 
+## Le tajwīd
+
+Les couleurs du tajwīd contredisent la règle « rien ne brille sauf le mot en cours » —
+et c'est assumé : ici la couleur **porte une règle**, elle ne décore pas. Les teintes
+suivent la convention des mushafs colorés (bleus pour les allongements, orange pour la
+ghunna, violet pour l'ikhfā', turquoise pour l'iqlāb, rouge pour la qalqala, gris pour
+ce qui ne se prononce pas), éclaircies pour tenir sur l'encre où les teintes
+d'imprimerie disparaîtraient. Plancher mesuré sur les 13 teintes : **5,78:1**.
+
+Une couleur sans nom n'apprend rien : la légende fait partie de la fonction, pas de
+l'ornement. Le mode se coupe en un clic, et le mushaf redevient argent.
+
+Le mot récité s'éclaircit par `filter: brightness()` et non en passant au blanc :
+l'écraser effacerait la règle au moment précis où elle se prononce.
+
+## Les lignes de souffle
+
+Un long verset se coupe aux marques de pause du texte uthmani (`ۖ`–`ۜ`) —
+là où le récitant reprend son souffle. Ce n'est pas un découpage arbitraire : c'est
+celui que le texte porte déjà.
+
+La ligne récitée se signale par **un filet en marge**, du côté où commence la lecture.
+Un premier essai atténuait les autres lignes à 0,62 d'opacité : la teinte de tajwīd la
+plus sombre y tombait à 3,0:1, sous le plancher. Un filet ne coûte aucun contraste.
+
 ## La signature
 
 « © Maher Bouchrara » occupe **sa propre bande**, sous les commandes, séparée par le

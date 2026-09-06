@@ -26,13 +26,45 @@
     { id: 0,   name: 'Aucune traduction',           sub: 'Texte arabe seul' }
   ];
 
+  /* Les 17 regles que l'API annote reellement, relevees sur onze sourates.
+     Les teintes suivent la convention des mushafs colores — bleus pour les
+     allongements, orange pour la ghunna, violet pour l'ikhfa, rouge pour la
+     qalqala, gris pour ce qui ne se prononce pas — mais eclaircies pour tenir
+     sur l'encre. */
+  var RULES = [
+    { c: 'madda_normal',        n: 'Madd naturel',            d: '2 temps' },
+    { c: 'madda_permissible',   n: 'Madd permis',             d: '4 ou 5 temps' },
+    { c: 'madda_obligatory',    n: 'Madd obligatoire',        d: '4 ou 5 temps' },
+    { c: 'madda_necessary',     n: 'Madd necessaire',         d: '6 temps' },
+    { c: 'ghunnah',             n: 'Ghunna',                  d: '2 temps dans le nez' },
+    { c: 'idgham_ghunnah',      n: 'Idgham avec ghunna',      d: 'fusion nasalisee' },
+    { c: 'idgham_wo_ghunnah',   n: 'Idgham sans ghunna',      d: 'fusion seche' },
+    { c: 'idgham_shafawi',      n: 'Idgham labial',           d: 'mim sur mim' },
+    { c: 'idgham_mutajanisayn', n: 'Idgham homogene',         d: 'lettres voisines' },
+    { c: 'idgham_mutaqaribayn', n: 'Idgham proche',           d: 'lettres proches' },
+    { c: 'ikhafa',              n: 'Ikhfa',                   d: 'nasalisation legere' },
+    { c: 'ikhafa_shafawi',      n: 'Ikhfa labial',            d: 'mim avant ba' },
+    { c: 'iqlab',               n: 'Iqlab',                   d: 'noun devient mim' },
+    { c: 'qalaqah',             n: 'Qalqala',                 d: 'rebond de la lettre' },
+    { c: 'ham_wasl',            n: 'Hamzat wasl',             d: 'ne se prononce pas' },
+    { c: 'laam_shamsiyah',      n: 'Lam solaire',             d: 'ne se prononce pas' },
+    { c: 'slnt',                n: 'Lettre muette',           d: 'ne se prononce pas' }
+  ];
+
+  /* Marques de pause : c'est la que le recitant reprend son souffle, donc la
+     que la ligne se coupe. */
+  var WAQF = /[\u06D6-\u06DC]/;
+  /* Un jeton fait uniquement de marques (rub el hizb, sajda) n'est pas un mot ;
+     sans ce filtre le decoupage du texte tajwid se decale d'un cran. */
+  var MARK_ONLY = /^[\u06D6-\u06ED\s]+$/;
+
   var BISMILLAH = 'بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ';
   var IDLE_MS   = 2800;   /* inactivité avant que les barres s'effacent en plein écran */
 
   /* --- état ------------------------------------------------------- */
 
   var S = {
-    chapters: [], reciters: [], verses: [],
+    chapters: [], reciters: [], verses: [], tajweedText: {},
     surah:   read('surah', 1),
     reciter: read('reciter', 7),
     trans:   read('trans', 31),
@@ -40,6 +72,7 @@
     rate:    read('rate', 1),
     volume:  read('volume', 0.9),
     muted:   read('muted', false),
+    tajweed: read('tajweed', true),
     active:  0,
     token:   0,
     seeking: false
@@ -167,6 +200,48 @@
 
   /* --- la ligne ------------------------------------------------------- */
 
+  /* Le texte tajwid arrive en une seule chaine balisee. On l'aplatit en
+     fragments {texte, regle}, puis on regroupe par mot. Une balise peut
+     enjamber une espace — « دًى ل » couvre la fin d'un mot et le debut du
+     suivant — donc on ne peut pas decouper la chaine betement : il faut
+     traverser l'arbre et recoller. */
+  function tajweedWords(htmlStr, expected) {
+    if (!htmlStr) return null;
+
+    var host = document.createElement('div');
+    host.innerHTML = htmlStr;
+
+    var runs = [];
+    (function walk(node, rule) {
+      for (var n = node.firstChild; n; n = n.nextSibling) {
+        if (n.nodeType === 3) { runs.push({ t: n.nodeValue, r: rule }); continue; }
+        if (n.nodeName === 'SPAN' && n.className === 'end') continue;  /* numero du verset */
+        walk(n, n.nodeName === 'TAJWEED' ? (n.getAttribute('class') || null) : rule);
+      }
+    })(host, null);
+
+    var out = [], cur = [];
+    function close() {
+      if (!cur.length) return;
+      var txt = cur.map(function (f) { return f.t; }).join('');
+      if (!MARK_ONLY.test(txt)) out.push(cur);
+      cur = [];
+    }
+    runs.forEach(function (run) {
+      var parts = run.t.split(/(\s+)/);
+      parts.forEach(function (p) {
+        if (!p) return;
+        if (/^\s+$/.test(p)) { close(); return; }
+        cur.push({ t: p, r: run.r });
+      });
+    });
+    close();
+
+    /* Un desaccord de comptage ferait glisser les couleurs d'un mot : on
+       prefere rendre le verset sans tajwid plutot que faux. */
+    return out.length === expected ? out : null;
+  }
+
   /* Un verset de deux mots et un verset de mille ne peuvent pas tenir au même
      corps. On resserre par paliers plutôt que de laisser le texte sortir du
      cadre ; au-delà du dernier palier, la zone défile. Le plancher garde le
@@ -199,23 +274,53 @@
     ar.lang = 'ar';
     ar.dir  = 'rtl';
 
+    var runs = S.tajweed ? tajweedWords(S.tajweedText[v.key], v.words.length) : null;
+
     var slots = [];
+    var line = document.createElement('span');
+    line.className = 'ln';
+    ar.appendChild(line);
+
     v.words.forEach(function (w, k) {
       var span = document.createElement('span');
       span.className = 'w';
       span.dataset.pos = w.pos;
-      span.textContent = w.text;
-      ar.appendChild(span);
-      if (k < v.words.length - 1) ar.appendChild(document.createTextNode(' '));
+
+      if (runs) {
+        runs[k].forEach(function (f) {
+          if (!f.r) { span.appendChild(document.createTextNode(f.t)); return; }
+          var g = document.createElement('span');
+          g.className = 'tj tj--' + f.r;
+          g.textContent = f.t;
+          span.appendChild(g);
+        });
+      } else {
+        span.textContent = w.text;
+      }
+
+      line.appendChild(span);
       slots.push(span);
+
+      /* Le verset se coupe la ou le recitant reprend son souffle : chaque
+         marque de pause ferme la ligne. Un verset sans marque reste d'un seul
+         tenant, comme avant. */
+      if (k < v.words.length - 1) {
+        if (WAQF.test(w.text)) {
+          line = document.createElement('span');
+          line.className = 'ln';
+          ar.appendChild(line);
+        } else {
+          line.appendChild(document.createTextNode(' '));
+        }
+      }
     });
 
     if (v.mark) {
       var num = document.createElement('span');
       num.className = 'lyric__num';
       num.textContent = v.mark;
-      ar.appendChild(document.createTextNode(' '));
-      ar.appendChild(num);
+      line.appendChild(document.createTextNode(' '));
+      line.appendChild(num);
     }
     box.appendChild(ar);
 
@@ -232,6 +337,7 @@
 
     /* Un verset qui déborde commence par son début, pas là où le précédent
        s'était arrêté. */
+    curLine = null;
     el.lyric.scrollTop = 0;
     /* Lire scrollHeight force le calcul de mise en page : la mesure est juste
        tout de suite, sans dependre de requestAnimationFrame, qui se met en
@@ -279,11 +385,32 @@
 
   function setWord(pos) {
     if (S.seeking) return;
+    var lit = null;
     for (var i = 0; i < words.length; i++) {
       var p = Number(words[i].dataset.pos);
-      words[i].classList.toggle('is-lit', pos !== null && p === pos);
+      var on = pos !== null && p === pos;
+      words[i].classList.toggle('is-lit', on);
       words[i].classList.toggle('is-read', pos !== null && p < pos);
+      if (on) lit = words[i];
     }
+    focusLine(lit ? lit.parentNode : null);
+  }
+
+  /* La ligne recitee se detache des autres, et vient a l'ecran d'elle-meme
+     quand le verset deborde : sans cela on perd sa place des qu'il faut
+     defiler. */
+  var curLine = null;
+  function focusLine(ln) {
+    if (ln === curLine) return;
+    if (curLine) curLine.classList.remove('is-now');
+    curLine = ln;
+    if (!ln) return;
+    ln.classList.add('is-now');
+
+    var L = el.lyric;
+    if (L.scrollHeight - L.clientHeight <= 4) return;
+    var target = ln.offsetTop - L.clientHeight * 0.34;
+    L.scrollTo({ top: Math.max(0, target), behavior: 'smooth' });
   }
 
   /* --- chargement ------------------------------------------------------ */
@@ -306,11 +433,14 @@
 
     Promise.all([
       window.API.verses(n, S.trans || null),
-      window.API.recitation(S.reciter, n)
+      window.API.recitation(S.reciter, n),
+      /* Le tajwid est un ornement : s'il manque, la recitation continue. */
+      window.API.tajweed(n).catch(function () { return {}; })
     ]).then(function (res) {
       if (mine !== S.token) return;
 
       var verses = res[0], files = res[1];
+      S.tajweedText = res[2] || {};
       var byKey = {};
       files.forEach(function (f) { byKey[f.key] = f; });
 
@@ -617,6 +747,42 @@
     });
   }
 
+  function buildTajweed() {
+    var list = $('tajweed-list'), leg = $('tajweed-legend');
+    list.textContent = '';
+    [
+      { on: true,  name: 'Regles colorees', sub: 'Chaque regle prend sa teinte dans le texte' },
+      { on: false, name: 'Texte nu',        sub: 'Le mushaf en argent, sans annotation' }
+    ].forEach(function (opt) {
+      var o = option({ name: opt.name, sub: opt.sub, on: S.tajweed === opt.on });
+      o.btn.addEventListener('click', function () {
+        if (S.tajweed === opt.on) return;
+        S.tajweed = opt.on;
+        save('tajweed', opt.on);
+        document.body.classList.toggle('is-tajweed', opt.on);
+        buildTajweed();
+        showVerse(S.active);
+      });
+      list.appendChild(o.li);
+    });
+
+    /* Une couleur sans nom n'apprend rien : la legende est ce qui rend
+       l'annotation utilisable. */
+    leg.textContent = '';
+    leg.hidden = !S.tajweed;
+    if (!S.tajweed) return;
+    RULES.forEach(function (r) {
+      var row = document.createElement('div');
+      var dt = document.createElement('dt');
+      dt.className = 'legend__key tj tj--' + r.c;
+      dt.textContent = r.n;
+      var dd = document.createElement('dd');
+      dd.textContent = r.d;
+      row.appendChild(dt); row.appendChild(dd);
+      leg.appendChild(row);
+    });
+  }
+
   function buildTranslations() {
     el.transList.textContent = '';
     TRANSLATIONS.forEach(function (t) {
@@ -685,8 +851,10 @@
       b.classList.toggle('is-on', Number(b.dataset.rate) === S.rate);
     });
 
+    document.body.classList.toggle('is-tajweed', !!S.tajweed);
     buildScenes();
     buildTranslations();
+    buildTajweed();
     applyScene();
     setHint('Chargement…');
 
