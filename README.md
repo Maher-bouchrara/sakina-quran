@@ -39,9 +39,12 @@ Un petit serveur reste plus sûr (certains navigateurs durcissent `file://`).
   Le numéro du verset et la traduction française n'arrivent qu'au dernier souffle,
   quand le verset est complet.
 - **Chaque souffle porte sa traduction**, bâtie sur les mots exactement qu'il contient.
-- **Les règles de tajwīd sont nommées sous le souffle affiché**, chacune de sa couleur :
-  « Idghām avec ghunna — fusion nasalisée », « Madd obligatoire — 4 ou 5 temps ».
+- **Les règles de tajwīd sont nommées sous le souffle affiché**, chacune de sa
+  couleur, rangées en colonnes alignées — **en français, en anglais ou en arabe**.
   La légende arrive là où la règle se lit, pas dans un panneau à part.
+- **La traduction du verset entier est masquée par défaut.** Elle n'apparaissait qu'au
+  dernier souffle, ce qui la faisait surgir sans prévenir ; le mot à mot sous chaque
+  souffle est désormais la traduction de lecture. Elle se rallume en un clic.
 - **Tajwīd coloré.** Chaque règle prend sa teinte dans le texte, avec sa légende ;
   le mot récité s'éclaircit sans perdre ses couleurs. Se désactive en un clic.
 - **Le mot en cours s'allume**, et les mots déjà lus restent bleutés : on suit sans
@@ -153,11 +156,13 @@ vers le portfolio :
 - La position de lecture n'est pas mémorisée d'une sourate à l'autre.
 - Il n'y a plus de liste des versets à l'écran : la navigation passe par le curseur
   du rail de transport et par le sélecteur de sourate.
-- **La traduction par ligne est en anglais**, et ce n'est pas un choix.
-  Le seul texte aligné sur les mots est `words[].translation`, qui n'existe qu'en
-  anglais : `word_translation_language` est accepté par l'API puis ignoré — testé sur
-  `ur`, `id`, `bn`, `tr`, `ru`, `fr`, `es`, `de`, tous renvoient l'anglais. Aucune
-  autre source publique ne comble le manque (quranwbw répond 403 ; quranenc et
-  alquran.cloud sont au niveau du verset). Découper le français d'Hamidullah pour le
-  faire correspondre reviendrait à l'inventer, et placerait des mots sous un arabe qui
-  ne les porte pas. Le français reste donc sous le verset entier, exact.
+- **La traduction par souffle est en anglais**, et ce n'est pas un choix.
+  `words[].translation` est le seul texte aligné sur les mots, et il n'existe qu'en
+  anglais. Vérifié sur **les deux hôtes** de quran.com (`api.quran.com` et
+  `api.qurancdn.com`), sur **huit langues** (`ur`, `id`, `bn`, `tr`, `ru`, `fr`, `es`,
+  `de`), avec le code iso comme avec l'identifiant numérique (`49` pour le français),
+  et sous **quatre noms de paramètre** différents : la réponse est l'anglais dans tous
+  les cas. Aucune autre source publique ne comble le manque (quranwbw répond 403 ;
+  quranenc et alquran.cloud sont au niveau du verset). Seules **les consignes de
+  tajwīd** sont traduites, parce que ce sont dix-sept libellés écrits à la main, pas
+  un texte coranique.

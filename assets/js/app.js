@@ -32,23 +32,80 @@
      qalqala, gris pour ce qui ne se prononce pas — mais eclaircies pour tenir
      sur l'encre. */
   var RULES = [
-    { c: 'madda_normal',        n: 'Madd naturel',       d: '2 temps' },
-    { c: 'madda_permissible',   n: 'Madd permis',        d: '4 ou 5 temps' },
-    { c: 'madda_obligatory',    n: 'Madd obligatoire',   d: '4 ou 5 temps' },
-    { c: 'madda_necessary',     n: 'Madd nécessaire',    d: '6 temps' },
-    { c: 'ghunnah',             n: 'Ghunna',             d: '2 temps dans le nez' },
-    { c: 'idgham_ghunnah',      n: 'Idghām avec ghunna', d: 'fusion nasalisée' },
-    { c: 'idgham_wo_ghunnah',   n: 'Idghām sans ghunna', d: 'fusion sèche' },
-    { c: 'idgham_shafawi',      n: 'Idghām labial',      d: 'mīm sur mīm' },
-    { c: 'idgham_mutajanisayn', n: 'Idghām homogène',    d: 'lettres voisines' },
-    { c: 'idgham_mutaqaribayn', n: 'Idghām proche',      d: 'lettres proches' },
-    { c: 'ikhafa',              n: 'Ikhfāʾ',             d: 'nasalisation légère' },
-    { c: 'ikhafa_shafawi',      n: 'Ikhfāʾ labial',      d: 'mīm avant bāʾ' },
-    { c: 'iqlab',               n: 'Iqlāb',              d: 'nūn devient mīm' },
-    { c: 'qalaqah',             n: 'Qalqala',            d: 'rebond de la lettre' },
-    { c: 'ham_wasl',            n: 'Hamzat waṣl',        d: 'ne se prononce pas' },
-    { c: 'laam_shamsiyah',      n: 'Lām solaire',        d: 'ne se prononce pas' },
-    { c: 'slnt',                n: 'Lettre muette',      d: 'ne se prononce pas' }
+    { c: 'madda_normal',
+      fr: ['Madd naturel',        '2 temps'],
+      en: ['Natural madd',        '2 counts'],
+      ar: ['مدّ طبيعي',            'حركتان'] },
+    { c: 'madda_permissible',
+      fr: ['Madd permis',         '4 ou 5 temps'],
+      en: ['Permissible madd',    '4 or 5 counts'],
+      ar: ['مدّ جائز منفصل',        'أربع أو خمس حركات'] },
+    { c: 'madda_obligatory',
+      fr: ['Madd obligatoire',    '4 ou 5 temps'],
+      en: ['Obligatory madd',     '4 or 5 counts'],
+      ar: ['مدّ واجب متّصل',        'أربع أو خمس حركات'] },
+    { c: 'madda_necessary',
+      fr: ['Madd nécessaire',     '6 temps'],
+      en: ['Necessary madd',      '6 counts'],
+      ar: ['مدّ لازم',              'ست حركات'] },
+    { c: 'ghunnah',
+      fr: ['Ghunna',              '2 temps dans le nez'],
+      en: ['Ghunnah',             '2 counts through the nose'],
+      ar: ['غنّة',                 'حركتان في الخيشوم'] },
+    { c: 'idgham_ghunnah',
+      fr: ['Idghām avec ghunna',  'fusion nasalisée'],
+      en: ['Idghām with ghunnah', 'nasalised merge'],
+      ar: ['إدغام بغنّة',           'إدماج مع الغنّة'] },
+    { c: 'idgham_wo_ghunnah',
+      fr: ['Idghām sans ghunna',  'fusion sèche'],
+      en: ['Idghām without ghunnah', 'dry merge'],
+      ar: ['إدغام بغير غنّة',        'إدماج بلا غنّة'] },
+    { c: 'idgham_shafawi',
+      fr: ['Idghām labial',       'mīm sur mīm'],
+      en: ['Idghām shafawī',      'mīm into mīm'],
+      ar: ['إدغام شفوي',           'ميم في ميم'] },
+    { c: 'idgham_mutajanisayn',
+      fr: ['Idghām homogène',     'lettres voisines'],
+      en: ['Idghām mutajānisayn', 'kindred letters'],
+      ar: ['إدغام متجانسين',        'حرفان متجانسان'] },
+    { c: 'idgham_mutaqaribayn',
+      fr: ['Idghām proche',       'lettres proches'],
+      en: ['Idghām mutaqāribayn', 'near letters'],
+      ar: ['إدغام متقاربين',        'حرفان متقاربان'] },
+    { c: 'ikhafa',
+      fr: ['Ikhfāʾ',              'nasalisation légère'],
+      en: ['Ikhfāʾ',              'light nasalisation'],
+      ar: ['إخفاء',                'إخفاء النون الساكنة'] },
+    { c: 'ikhafa_shafawi',
+      fr: ['Ikhfāʾ labial',       'mīm avant bāʾ'],
+      en: ['Ikhfāʾ shafawī',      'mīm before bāʾ'],
+      ar: ['إخفاء شفوي',           'ميم قبل الباء'] },
+    { c: 'iqlab',
+      fr: ['Iqlāb',               'nūn devient mīm'],
+      en: ['Iqlāb',               'nūn becomes mīm'],
+      ar: ['إقلاب',                'النون تصير ميمًا'] },
+    { c: 'qalaqah',
+      fr: ['Qalqala',             'rebond de la lettre'],
+      en: ['Qalqala',             'echo on the letter'],
+      ar: ['قلقلة',                'اضطراب الحرف'] },
+    { c: 'ham_wasl',
+      fr: ['Hamzat waṣl',         'ne se prononce pas'],
+      en: ['Hamzat waṣl',         'not pronounced'],
+      ar: ['همزة وصل',             'لا تُنطق'] },
+    { c: 'laam_shamsiyah',
+      fr: ['Lām solaire',         'ne se prononce pas'],
+      en: ['Lām shamsiyya',       'not pronounced'],
+      ar: ['لام شمسية',            'لا تُنطق'] },
+    { c: 'slnt',
+      fr: ['Lettre muette',       'ne se prononce pas'],
+      en: ['Silent letter',       'not pronounced'],
+      ar: ['حرف لا يُنطق',          'لا يُنطق'] }
+  ];
+
+  var RULE_LANGS = [
+    { id: 'fr', name: 'Français',  sub: 'Consignes en français' },
+    { id: 'en', name: 'English',   sub: 'Rule names in English' },
+    { id: 'ar', name: 'العربية',    sub: 'أسماء الأحكام بالعربية' }
   ];
 
   /* Marques de pause : c'est la que le recitant reprend son souffle, donc la
@@ -74,6 +131,8 @@
     muted:   read('muted', false),
     tajweed: read('tajweed', true),
     lineTr:  read('lineTr', true),
+    ruleLang: read('ruleLang', 'fr'),
+    verseTr: read('verseTr', false),
     active:  0,
     segs:    null,
     seg:     0,
@@ -361,22 +420,31 @@
     if (S.tajweed && sg.rules.length) {
       var ul = document.createElement('ul');
       ul.className = 'rules';
+      var lg = S.ruleLang;
+      ul.lang = lg;
+      ul.dir  = lg === 'ar' ? 'rtl' : 'ltr';
       sg.rules.forEach(function (c) {
-        var r = RULE_BY[c];
+        var r = RULE_BY[c][lg] || RULE_BY[c].fr;
         var li = document.createElement('li');
-        li.className = 'rule tj--' + c;
+        li.className = 'rule';
         var b = document.createElement('b');
-        b.textContent = r.n;
+        b.className = 'rule__n tj--' + c;
+        b.textContent = r[0];
+        var d = document.createElement('span');
+        d.className = 'rule__d';
+        d.textContent = r[1];
         li.appendChild(b);
-        li.appendChild(document.createTextNode(' ' + r.d));
+        li.appendChild(d);
         ul.appendChild(li);
       });
       box.appendChild(ul);
     }
 
-    /* La traduction française porte sur le verset entier : elle n'apparaît
-       donc qu'une fois le dernier souffle atteint. */
-    if (sg.last && v && v.trans) {
+    /* La traduction du verset porte sur le verset entier : apparaissant au seul
+       dernier souffle, elle donnait l'impression de surgir au hasard. Masquee
+       par defaut ; le mot a mot sous chaque souffle est desormais la traduction
+       de lecture. */
+    if (S.verseTr && sg.last && v && v.trans) {
       var tr = document.createElement('p');
       tr.className = 'lyric__tr';
       tr.lang = S.trans === 20 ? 'en' : 'fr';
@@ -814,6 +882,46 @@
     });
   }
 
+  function buildRuleLang() {
+    var list = $('rulelang-list');
+    list.textContent = '';
+    list.hidden = !S.tajweed;
+    if (!S.tajweed) return;
+    RULE_LANGS.forEach(function (L) {
+      var o = option({ name: L.name, sub: L.sub, on: S.ruleLang === L.id });
+      o.btn.addEventListener('click', function () {
+        if (S.ruleLang === L.id) return;
+        S.ruleLang = L.id;
+        save('ruleLang', L.id);
+        buildRuleLang();
+        buildTajweed();
+        showSegment(S.seg);
+      });
+      list.appendChild(o.li);
+    });
+  }
+
+  function buildVerseTr() {
+    var list = $('versetr-list');
+    list.textContent = '';
+    [
+      { on: false, name: 'Masquée',
+        sub: 'Le mot à mot sous chaque souffle suffit' },
+      { on: true,  name: 'Au dernier souffle',
+        sub: 'La traduction complète clôt le verset' }
+    ].forEach(function (opt) {
+      var o = option({ name: opt.name, sub: opt.sub, on: S.verseTr === opt.on });
+      o.btn.addEventListener('click', function () {
+        if (S.verseTr === opt.on) return;
+        S.verseTr = opt.on;
+        save('verseTr', opt.on);
+        buildVerseTr();
+        showSegment(S.seg);
+      });
+      list.appendChild(o.li);
+    });
+  }
+
   function buildTajweed() {
     var list = $('tajweed-list'), leg = $('tajweed-legend');
     list.textContent = '';
@@ -828,6 +936,7 @@
         save('tajweed', opt.on);
         document.body.classList.toggle('is-tajweed', opt.on);
         buildTajweed();
+        buildRuleLang();
         showVerse(S.active);
       });
       list.appendChild(o.li);
@@ -838,13 +947,16 @@
     leg.textContent = '';
     leg.hidden = !S.tajweed;
     if (!S.tajweed) return;
+    leg.lang = S.ruleLang;
+    leg.dir  = S.ruleLang === 'ar' ? 'rtl' : 'ltr';
     RULES.forEach(function (r) {
+      var lab = r[S.ruleLang] || r.fr;
       var row = document.createElement('div');
       var dt = document.createElement('dt');
       dt.className = 'legend__key tj tj--' + r.c;
-      dt.textContent = r.n;
+      dt.textContent = lab[0];
       var dd = document.createElement('dd');
-      dd.textContent = r.d;
+      dd.textContent = lab[1];
       row.appendChild(dt); row.appendChild(dd);
       leg.appendChild(row);
     });
@@ -923,6 +1035,8 @@
     buildTranslations();
     buildLineTr();
     buildTajweed();
+    buildRuleLang();
+    buildVerseTr();
     applyScene();
     setHint('Chargement…');
 

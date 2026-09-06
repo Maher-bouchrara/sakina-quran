@@ -308,27 +308,45 @@ body {
 /* Les règles du souffle affiché, nommées et de leur couleur. La légende arrive
    là où la règle se lit : une couleur qu'il faut aller chercher ailleurs
    n'apprend rien. */
+/* Les consignes en colonnes egales, alignees a gauche, le nom dans une gouttiere
+   de largeur fixe : les descriptions se rangent donc les unes sous les autres.
+   Un enroulement centre les laissait en escalier, ce qui se lisait comme du
+   desordre plutot que comme une liste. */
 .rules {
   list-style: none;
   margin: clamp(16px, 2.6vh, 30px) auto 0;
   padding: clamp(12px, 1.8vh, 18px) 0 0;
-  max-width: 62ch;
   border-top: 1px solid var(--line);
-  display: flex; flex-wrap: wrap;
-  justify-content: center;
-  gap: 6px clamp(14px, 2vw, 26px);
+  display: grid;
+  /* `minmax(232px, …)` impose un minimum de piste que `auto-fit` ne peut pas
+     reduire : a 449 px la grille reclamait deux colonnes de 232 et debordait de
+     67 px, emportant les noms hors de l'ecran. `min(232px, 100%)` laisse la
+     piste retomber a la largeur disponible. */
+  grid-template-columns: repeat(auto-fit, minmax(min(232px, 100%), 1fr));
+  max-width: min(68ch, 100%);
+  gap: 5px clamp(16px, 2.6vw, 38px);
+  text-align: start;
 }
 .rule {
+  display: grid;
+  grid-template-columns: 10.5em 1fr;
+  align-items: baseline;
+  gap: 8px;
   font-family: var(--ui);
   font-size: 11px;
-  letter-spacing: .02em;
-  color: var(--silver-3);
-  white-space: nowrap;
+  line-height: 1.45;
 }
-.rule b {
+.rule__n {
   font-weight: 600;
-  color: currentColor;   /* la teinte de la regle vient de .tj--… */
+  letter-spacing: .01em;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
+.rule__d { color: var(--silver-3); }
+
+/* En arabe les noms sont plus courts et se lisent de droite a gauche. */
+.rules[dir="rtl"] .rule { grid-template-columns: 8.5em 1fr; }
+.rules[dir="rtl"] .rule__n { font-family: var(--mushaf); font-size: 14px; }
+.rules[dir="rtl"] .rule__d { font-family: var(--mushaf); font-size: 13px; }
 
 .lyric__tr {
   margin: clamp(16px, 2.6vh, 30px) auto 0;

@@ -163,7 +163,16 @@ de leur couleur**. Une couleur qu'il faut aller chercher dans un panneau n'appre
 rien ; ici la légende est là où la règle se lit.
 
 Trois voix, distinguées par la couleur : l'arabe en argent, le mot à mot en argent
-italique, le sable **réservé** à la traduction française.
+italique, le sable **réservé** à la traduction du verset entier — laquelle est masquée
+par défaut : n'apparaissant qu'au dernier souffle, elle donnait l'impression de surgir
+au hasard.
+
+Les consignes se rangent en **colonnes égales, le nom dans une gouttière de largeur
+fixe**, pour que les descriptions s'alignent les unes sous les autres. Un enroulement
+centré les laissait en escalier, ce qui se lit comme du désordre plutôt que comme une
+liste. `minmax(232px, …)` imposait un minimum de piste que `auto-fit` ne peut pas
+réduire : à 449 px la grille réclamait deux colonnes et débordait de 67 px, emportant
+les noms arabes hors de l'écran. `min(232px, 100%)` laisse la piste retomber.
 
 ## La signature
 
