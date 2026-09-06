@@ -163,7 +163,7 @@
     fill: $('ayah-fill'), cNow: $('c-now'), cAll: $('c-all'), cSeg: $('c-seg'), seek: $('seek'),
     play: $('play'), prev: $('prev'), next: $('next'), loop: $('loop'),
     mute: $('mute'), vol: $('vol'), full: $('full'),
-    vSurah: $('v-surah'), vReciter: $('v-reciter'), vScene: $('v-scene'),
+    vSurah: $('v-surah'), vReciter: $('v-reciter'),
     drawer: $('drawer'), scrim: $('scrim'), drawerTitle: $('drawer-title'),
     surahList: $('surah-list'), reciterList: $('reciter-list'),
     sceneList: $('scene-list'), transList: $('trans-list'),
@@ -222,18 +222,11 @@
     return CLIPS.map(function (c) { return c.src; });
   }
 
-  function sceneLabel() {
-    if (S.scene === 'none') return SCENE_NONE.name;
-    if (S.scene === 'auto') return SCENE_AUTO.name;
-    for (var i = 0; i < CLIPS.length; i++) if (CLIPS[i].id === S.scene) return CLIPS[i].name;
-    return SCENE_AUTO.name;
-  }
 
   /* En mode automatique, la sourate décide du plan de départ : deux
      sourates voisines n'ouvrent pas sur la même image, et une même
      sourate retrouve la sienne. */
   function applyScene() {
-    el.vScene.textContent = sceneLabel();
     var srcs = sceneChoice();
     if (!srcs) { scene.stop(); return; }
     scene.play(srcs, S.scene === 'auto' ? (S.surah * 7) % CLIPS.length : 0);
@@ -712,7 +705,7 @@
   /* --- tiroir ------------------------------------------------------------- */
 
   var PANES = ['surahs', 'reciters', 'settings'];
-  var TITLES = { surahs: 'Sourate', reciters: 'Récitateur', settings: 'Scène et traduction' };
+  var TITLES = { surahs: 'Sourate', reciters: 'Récitateur', settings: 'Paramètres' };
 
   /* Un seul point de vérité : l'attribut sur <body>. Le tiroir, le voile et
      les boutons en découlent, donc ils ne peuvent pas se désaccorder. */

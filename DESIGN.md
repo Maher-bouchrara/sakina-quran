@@ -183,6 +183,15 @@ liste. `minmax(232px, …)` imposait un minimum de piste que `auto-fit` ne peut 
 réduire : à 449 px la grille réclamait deux colonnes et débordait de 67 px, emportant
 les noms arabes hors de l'écran. `min(232px, 100%)` laisse la piste retomber.
 
+## Le troisième bouton
+
+Il portait « Scène » et le nom du plan courant, du temps où le panneau ne réglait que
+le fond. Il en règle maintenant huit choses — scène, traduction, traduction par ligne,
+tajwīd, langue des consignes, traduction du verset, clavier, crédits. Le libellé
+mentait donc sur ce qu'il ouvre, et le nom du plan n'était pas une information qu'on
+cherche depuis le bandeau. Il dit **Paramètres**, et rien d'autre : les deux premiers
+boutons nomment un choix qu'on veut voir sans ouvrir le panneau, celui-ci n'en a pas.
+
 ## Le rail au téléphone
 
 Sous 900 px le rail passe en **trois rangées** — curseur de verset, transport, réglages —
