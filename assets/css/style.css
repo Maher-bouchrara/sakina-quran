@@ -339,14 +339,30 @@ body {
 .rule__n {
   font-weight: 600;
   letter-spacing: .01em;
-  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  min-width: 0;
 }
 .rule__d { color: var(--silver-3); }
 
-/* En arabe les noms sont plus courts et se lisent de droite a gauche. */
-.rules[dir="rtl"] .rule { grid-template-columns: 8.5em 1fr; }
+/* En arabe les noms se lisent de droite a gauche, et il leur faut de la hauteur :
+   l'interligne de 1,45 rognait shadda, kasra et damma de sept pixels. Les signes
+   font partie du mot — les couper, c'est le changer. */
+.rules[dir="rtl"] .rule {
+  grid-template-columns: 8.5em 1fr;
+  line-height: 1.95;
+}
 .rules[dir="rtl"] .rule__n { font-family: var(--mushaf); font-size: 14px; }
 .rules[dir="rtl"] .rule__d { font-family: var(--mushaf); font-size: 13px; }
+.rules[dir="rtl"] { row-gap: 8px; }
+
+/* Sur un ecran etroit, le nom passe au-dessus de sa description : deux colonnes
+   courtes tiennent alors ou une seule colonne large debordait. */
+@media (max-width: 560px) {
+  .rules { grid-template-columns: repeat(auto-fit, minmax(min(148px, 100%), 1fr)); }
+  .rule  { grid-template-columns: 1fr; gap: 0; }
+  .rules[dir="rtl"] .rule { grid-template-columns: 1fr; }
+  .rule__d { font-size: 10px; }
+  .rules[dir="rtl"] .rule__d { font-size: 12px; }
+}
 
 .lyric__tr {
   margin: clamp(16px, 2.6vh, 30px) auto 0;

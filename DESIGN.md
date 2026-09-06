@@ -167,8 +167,17 @@ italique, le sable **réservé** à la traduction du verset entier — laquelle 
 par défaut : n'apparaissant qu'au dernier souffle, elle donnait l'impression de surgir
 au hasard.
 
+En arabe, les consignes demandent de la **hauteur** : l'interligne de 1,45 rognait
+shadda, kasra et damma de sept pixels, parce que `overflow: hidden` — posé pour couper
+les noms trop longs — coupait en fait les signes. Les noms tiennent tous dans la
+gouttière (79 px mesurés pour le plus large, contre 94 disponibles) : le rognage
+n'avait aucune raison d'être, et les signes font partie du mot — les couper, c'est le
+changer.
+
 Les consignes se rangent en **colonnes égales, le nom dans une gouttière de largeur
-fixe**, pour que les descriptions s'alignent les unes sous les autres. Un enroulement
+fixe**, pour que les descriptions s'alignent les unes sous les autres. Sous 560 px le
+nom passe au-dessus de sa description : deux colonnes courtes tiennent là où une seule
+colonne large débordait. Un enroulement
 centré les laissait en escalier, ce qui se lit comme du désordre plutôt que comme une
 liste. `minmax(232px, …)` imposait un minimum de piste que `auto-fit` ne peut pas
 réduire : à 449 px la grille réclamait deux colonnes et débordait de 67 px, emportant
