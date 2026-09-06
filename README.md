@@ -33,12 +33,15 @@ Un petit serveur reste plus sûr (certains navigateurs durcissent `file://`).
 
 - **Une ligne à la fois.** Le verset récité occupe le centre de la page. Quand la
   récitation avance, la ligne suivante se lève pendant que la précédente s'efface.
-- **Les longs versets se lisent ligne par ligne, chacune avec sa traduction.**
-  Le verset se coupe aux marques de pause du texte uthmani — là où le récitant reprend
-  son souffle — et chaque segment porte dessous le mot à mot **des mots exactement
-  qu'il contient**. La ligne récitée porte un filet en marge et vient à l'écran
-  d'elle-même quand le verset déborde. Un verset d'un seul tenant n'en reçoit pas :
-  la traduction complète dessous suffit.
+- **Un souffle par écran.** Le verset se coupe aux marques de pause du texte uthmani —
+  là où le récitant reprend son souffle — et **un seul segment est à l'écran à la fois**.
+  Il tourne tout seul quand la voix passe au suivant. Le rail indique lequel : « 6 / 9 ».
+  Le numéro du verset et la traduction française n'arrivent qu'au dernier souffle,
+  quand le verset est complet.
+- **Chaque souffle porte sa traduction**, bâtie sur les mots exactement qu'il contient.
+- **Les règles de tajwīd sont nommées sous le souffle affiché**, chacune de sa couleur :
+  « Idghām avec ghunna — fusion nasalisée », « Madd obligatoire — 4 ou 5 temps ».
+  La légende arrive là où la règle se lit, pas dans un panneau à part.
 - **Tajwīd coloré.** Chaque règle prend sa teinte dans le texte, avec sa légende ;
   le mot récité s'éclaircit sans perdre ses couleurs. Se désactive en un clic.
 - **Le mot en cours s'allume**, et les mots déjà lus restent bleutés : on suit sans

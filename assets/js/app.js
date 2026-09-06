@@ -32,23 +32,23 @@
      qalqala, gris pour ce qui ne se prononce pas — mais eclaircies pour tenir
      sur l'encre. */
   var RULES = [
-    { c: 'madda_normal',        n: 'Madd naturel',            d: '2 temps' },
-    { c: 'madda_permissible',   n: 'Madd permis',             d: '4 ou 5 temps' },
-    { c: 'madda_obligatory',    n: 'Madd obligatoire',        d: '4 ou 5 temps' },
-    { c: 'madda_necessary',     n: 'Madd necessaire',         d: '6 temps' },
-    { c: 'ghunnah',             n: 'Ghunna',                  d: '2 temps dans le nez' },
-    { c: 'idgham_ghunnah',      n: 'Idgham avec ghunna',      d: 'fusion nasalisee' },
-    { c: 'idgham_wo_ghunnah',   n: 'Idgham sans ghunna',      d: 'fusion seche' },
-    { c: 'idgham_shafawi',      n: 'Idgham labial',           d: 'mim sur mim' },
-    { c: 'idgham_mutajanisayn', n: 'Idgham homogene',         d: 'lettres voisines' },
-    { c: 'idgham_mutaqaribayn', n: 'Idgham proche',           d: 'lettres proches' },
-    { c: 'ikhafa',              n: 'Ikhfa',                   d: 'nasalisation legere' },
-    { c: 'ikhafa_shafawi',      n: 'Ikhfa labial',            d: 'mim avant ba' },
-    { c: 'iqlab',               n: 'Iqlab',                   d: 'noun devient mim' },
-    { c: 'qalaqah',             n: 'Qalqala',                 d: 'rebond de la lettre' },
-    { c: 'ham_wasl',            n: 'Hamzat wasl',             d: 'ne se prononce pas' },
-    { c: 'laam_shamsiyah',      n: 'Lam solaire',             d: 'ne se prononce pas' },
-    { c: 'slnt',                n: 'Lettre muette',           d: 'ne se prononce pas' }
+    { c: 'madda_normal',        n: 'Madd naturel',       d: '2 temps' },
+    { c: 'madda_permissible',   n: 'Madd permis',        d: '4 ou 5 temps' },
+    { c: 'madda_obligatory',    n: 'Madd obligatoire',   d: '4 ou 5 temps' },
+    { c: 'madda_necessary',     n: 'Madd nécessaire',    d: '6 temps' },
+    { c: 'ghunnah',             n: 'Ghunna',             d: '2 temps dans le nez' },
+    { c: 'idgham_ghunnah',      n: 'Idghām avec ghunna', d: 'fusion nasalisée' },
+    { c: 'idgham_wo_ghunnah',   n: 'Idghām sans ghunna', d: 'fusion sèche' },
+    { c: 'idgham_shafawi',      n: 'Idghām labial',      d: 'mīm sur mīm' },
+    { c: 'idgham_mutajanisayn', n: 'Idghām homogène',    d: 'lettres voisines' },
+    { c: 'idgham_mutaqaribayn', n: 'Idghām proche',      d: 'lettres proches' },
+    { c: 'ikhafa',              n: 'Ikhfāʾ',             d: 'nasalisation légère' },
+    { c: 'ikhafa_shafawi',      n: 'Ikhfāʾ labial',      d: 'mīm avant bāʾ' },
+    { c: 'iqlab',               n: 'Iqlāb',              d: 'nūn devient mīm' },
+    { c: 'qalaqah',             n: 'Qalqala',            d: 'rebond de la lettre' },
+    { c: 'ham_wasl',            n: 'Hamzat waṣl',        d: 'ne se prononce pas' },
+    { c: 'laam_shamsiyah',      n: 'Lām solaire',        d: 'ne se prononce pas' },
+    { c: 'slnt',                n: 'Lettre muette',      d: 'ne se prononce pas' }
   ];
 
   /* Marques de pause : c'est la que le recitant reprend son souffle, donc la
@@ -75,6 +75,8 @@
     tajweed: read('tajweed', true),
     lineTr:  read('lineTr', true),
     active:  0,
+    segs:    null,
+    seg:     0,
     token:   0,
     seeking: false
   };
@@ -98,7 +100,7 @@
     layers: [$('layer-0'), $('layer-1')],
     shAr: $('sh-ar'), shMeta: $('sh-meta'), shBism: $('sh-bism'),
     hint: $('hint'), hintText: $('hint-text'), retry: $('hint-retry'),
-    fill: $('ayah-fill'), cNow: $('c-now'), cAll: $('c-all'), seek: $('seek'),
+    fill: $('ayah-fill'), cNow: $('c-now'), cAll: $('c-all'), cSeg: $('c-seg'), seek: $('seek'),
     play: $('play'), prev: $('prev'), next: $('next'), loop: $('loop'),
     mute: $('mute'), vol: $('vol'), full: $('full'),
     vSurah: $('v-surah'), vReciter: $('v-reciter'), vScene: $('v-scene'),
@@ -242,31 +244,66 @@
        prefere rendre le verset sans tajwid plutot que faux. */
     return out.length === expected ? out : null;
   }
-
-  /* Un verset de deux mots et un verset de mille ne peuvent pas tenir au même
+  /* Un segment de trois mots et un de cinquante ne peuvent pas tenir au même
      corps. On resserre par paliers plutôt que de laisser le texte sortir du
-     cadre ; au-delà du dernier palier, la zone défile. Le plancher garde le
-     tashkīl lisible : en dessous, les signes se referment sur la lettre. */
+     cadre. Le plancher garde le tashkīl lisible : en dessous, les signes se
+     referment sur la lettre. */
   function fitFor(text) {
     var n = (text || '').length;
-    if (n <=  70) return [1,    1   ];
-    if (n <= 140) return [0.88, 0.97];
-    if (n <= 260) return [0.80, 0.94];
-    if (n <= 450) return [0.73, 0.91];
-    return             [0.68, 0.88];
+    if (n <=  45) return [1.18, 1.06];
+    if (n <=  90) return [1,    1   ];
+    if (n <= 150) return [0.88, 0.97];
+    if (n <= 240) return [0.78, 0.93];
+    return             [0.70, 0.90];
   }
 
-  /* Une seule ligne est à l'écran. Deux couches se croisent en fondu :
-     celle qui part s'efface pendant que celle qui vient se lève. */
-  function showVerse(i) {
-    var v = S.verses[i];
-    if (!v) return;
+  var RULE_BY = {};
+  RULES.forEach(function (r) { RULE_BY[r.c] = r; });
 
+  /* Le verset se coupe là où le récitant reprend son souffle. Chaque souffle
+     devient un segment : c'est lui, et lui seul, qui occupe l'écran. */
+  function buildSegments(v) {
+    var runs = S.tajweed ? tajweedWords(S.tajweedText[v.key], v.words.length) : null;
+    var segs = [], cur = null;
+
+    function open() { cur = { mots: [], runs: [], rules: [] }; segs.push(cur); }
+    open();
+
+    v.words.forEach(function (w, k) {
+      cur.mots.push(w);
+      cur.runs.push(runs ? runs[k] : null);
+      if (runs) {
+        runs[k].forEach(function (f) {
+          if (f.r && RULE_BY[f.r] && cur.rules.indexOf(f.r) < 0) cur.rules.push(f.r);
+        });
+      }
+      if (k < v.words.length - 1 && WAQF.test(w.text)) open();
+    });
+
+    var index = {};
+    segs.forEach(function (sg, i) {
+      sg.ar    = sg.mots.map(function (w) { return w.text; }).join(' ');
+      sg.gloss = sg.mots.map(function (w) { return w.en; }).filter(Boolean).join(' ').trim();
+      sg.last  = i === segs.length - 1;
+      sg.mots.forEach(function (w) { index[w.pos] = i; });
+    });
+    segs.index = index;
+    return segs;
+  }
+
+  /* Un seul segment est à l'écran. Deux couches se croisent en fondu :
+     celle qui part s'efface pendant que celle qui vient se lève. */
+  function showSegment(si) {
+    var sg = S.segs && S.segs[si];
+    if (!sg) return;
+    S.seg = si;
+
+    var v    = S.verses[S.active];
     var next = 1 - layer;
     var box  = el.layers[next];
     box.textContent = '';
 
-    var fit = fitFor(v.arabic);
+    var fit = fitFor(sg.ar);
     box.style.setProperty('--fit', fit[0]);
     box.style.setProperty('--fit-tr', fit[1]);
 
@@ -275,30 +312,15 @@
     ar.lang = 'ar';
     ar.dir  = 'rtl';
 
-    var runs = S.tajweed ? tajweedWords(S.tajweedText[v.key], v.words.length) : null;
-
     var slots = [];
-    var lines = [];          /* {el, ar, mots[]} pour poser la glose ensuite */
-
-    function openLine() {
-      var el2 = document.createElement('span');
-      el2.className = 'ln';
-      var inner = document.createElement('span');
-      inner.className = 'ln__ar';
-      el2.appendChild(inner);
-      ar.appendChild(el2);
-      lines.push({ el: el2, ar: inner, mots: [] });
-      return inner;
-    }
-    var line = openLine();
-
-    v.words.forEach(function (w, k) {
+    sg.mots.forEach(function (w, k) {
       var span = document.createElement('span');
       span.className = 'w';
       span.dataset.pos = w.pos;
 
+      var runs = sg.runs[k];
       if (runs) {
-        runs[k].forEach(function (f) {
+        runs.forEach(function (f) {
           if (!f.r) { span.appendChild(document.createTextNode(f.t)); return; }
           var g = document.createElement('span');
           g.className = 'tj tj--' + f.r;
@@ -309,50 +331,52 @@
         span.textContent = w.text;
       }
 
-      line.appendChild(span);
+      ar.appendChild(span);
       slots.push(span);
-      lines[lines.length - 1].mots.push(w);
-
-      /* Le verset se coupe la ou le recitant reprend son souffle : chaque
-         marque de pause ferme la ligne. Un verset sans marque reste d'un seul
-         tenant, comme avant. */
-      if (k < v.words.length - 1) {
-        if (WAQF.test(w.text)) {
-          line = openLine();
-        } else {
-          line.appendChild(document.createTextNode(' '));
-        }
-      }
+      if (k < sg.mots.length - 1) ar.appendChild(document.createTextNode(' '));
     });
 
-    if (v.mark) {
+    /* Le numéro du verset ne se pose qu'au dernier souffle : c'est là qu'il
+       clôt le verset dans le mushaf. */
+    if (sg.last && v && v.mark) {
       var num = document.createElement('span');
       num.className = 'lyric__num';
       num.textContent = v.mark;
-      line.appendChild(document.createTextNode(' '));
-      line.appendChild(num);
+      ar.appendChild(document.createTextNode(' '));
+      ar.appendChild(num);
     }
-
-    /* La glose sous chaque segment n'a de sens que si le verset est divise :
-       sur un verset d'un seul tenant, la traduction complete en dessous dit
-       deja tout. */
-    if (S.lineTr && lines.length > 1) {
-      lines.forEach(function (l) {
-        var g = l.mots.map(function (w) { return w.en; })
-                      .filter(Boolean).join(' ').trim();
-        if (!g) return;
-        var p = document.createElement('span');
-        p.className = 'ln__tr';
-        p.lang = 'en';
-        p.dir = 'ltr';
-        p.textContent = g;
-        l.el.appendChild(p);
-      });
-    }
-
     box.appendChild(ar);
 
-    if (v.trans) {
+    if (S.lineTr && sg.gloss) {
+      var g2 = document.createElement('p');
+      g2.className = 'lyric__gloss';
+      g2.lang = 'en';
+      g2.dir  = 'ltr';
+      g2.textContent = sg.gloss;
+      box.appendChild(g2);
+    }
+
+    /* Les règles présentes dans CE segment, nommées et de leur couleur : la
+       légende arrive là où la règle se lit, pas dans un panneau à part. */
+    if (S.tajweed && sg.rules.length) {
+      var ul = document.createElement('ul');
+      ul.className = 'rules';
+      sg.rules.forEach(function (c) {
+        var r = RULE_BY[c];
+        var li = document.createElement('li');
+        li.className = 'rule tj--' + c;
+        var b = document.createElement('b');
+        b.textContent = r.n;
+        li.appendChild(b);
+        li.appendChild(document.createTextNode(' ' + r.d));
+        ul.appendChild(li);
+      });
+      box.appendChild(ul);
+    }
+
+    /* La traduction française porte sur le verset entier : elle n'apparaît
+       donc qu'une fois le dernier souffle atteint. */
+    if (sg.last && v && v.trans) {
       var tr = document.createElement('p');
       tr.className = 'lyric__tr';
       tr.lang = S.trans === 20 ? 'en' : 'fr';
@@ -363,23 +387,30 @@
     el.layers[layer].classList.remove('is-live');
     box.classList.add('is-live');
 
-    /* Un verset qui déborde commence par son début, pas là où le précédent
-       s'était arrêté. */
-    curLine = null;
     el.lyric.scrollTop = 0;
     /* Lire scrollHeight force le calcul de mise en page : la mesure est juste
-       tout de suite, sans dependre de requestAnimationFrame, qui se met en
-       veille dans un onglet cache ou une vue integree. Le second passage
-       rattrape le decalage laisse par le chargement des caracteres. */
+       tout de suite, sans dépendre de requestAnimationFrame, qui se met en
+       veille dans un onglet caché ou une vue intégrée. */
     markOverflow();
     setTimeout(markOverflow, 80);
 
     layer = next;
     words = slots;
+
+    if (el.cSeg) {
+      el.cSeg.textContent = S.segs.length > 1 ? (si + 1) + ' / ' + S.segs.length : '';
+    }
+  }
+
+  function showVerse(i) {
+    var v = S.verses[i];
+    if (!v) return;
+    S.segs = buildSegments(v);
+    showSegment(0);
   }
 
   /* Le fondu du bas ne s'allume que s'il reste vraiment quelque chose dessous,
-     et s'éteint une fois le verset lu jusqu'au bout. */
+     et s'éteint une fois le segment lu jusqu'au bout. */
   function markOverflow() {
     var L = el.lyric;
     var over = L.scrollHeight - L.clientHeight > 4;
@@ -413,32 +444,19 @@
 
   function setWord(pos) {
     if (S.seeking) return;
-    var lit = null;
+
+    /* Le souffle suit la voix : dès que le mot récité appartient au segment
+       suivant, l'écran tourne la page. */
+    if (pos !== null && S.segs && S.segs.index) {
+      var si = S.segs.index[pos];
+      if (si !== undefined && si !== S.seg) showSegment(si);
+    }
+
     for (var i = 0; i < words.length; i++) {
       var p = Number(words[i].dataset.pos);
-      var on = pos !== null && p === pos;
-      words[i].classList.toggle('is-lit', on);
+      words[i].classList.toggle('is-lit', pos !== null && p === pos);
       words[i].classList.toggle('is-read', pos !== null && p < pos);
-      if (on) lit = words[i];
     }
-    focusLine(lit ? lit.parentNode : null);
-  }
-
-  /* La ligne recitee se detache des autres, et vient a l'ecran d'elle-meme
-     quand le verset deborde : sans cela on perd sa place des qu'il faut
-     defiler. */
-  var curLine = null;
-  function focusLine(ln) {
-    if (ln === curLine) return;
-    if (curLine) curLine.classList.remove('is-now');
-    curLine = ln;
-    if (!ln) return;
-    ln.classList.add('is-now');
-
-    var L = el.lyric;
-    if (L.scrollHeight - L.clientHeight <= 4) return;
-    var target = ln.offsetTop - L.clientHeight * 0.34;
-    L.scrollTo({ top: Math.max(0, target), behavior: 'smooth' });
   }
 
   /* --- chargement ------------------------------------------------------ */

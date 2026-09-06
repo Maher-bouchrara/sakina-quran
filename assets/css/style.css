@@ -292,58 +292,53 @@ body {
   color: var(--moon-deep);
 }
 
+/* Trois voix, jamais mélangées : l'arabe en argent, le mot à mot en argent
+   italique et plus petit, le sable réservé à la traduction française du verset.
+   La couleur dit donc toujours de quel texte il s'agit. */
+.lyric__gloss {
+  margin: clamp(14px, 2.4vh, 26px) auto 0;
+  max-width: 56ch;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: calc(clamp(.92rem, 1.05vw, 1.05rem) * var(--fit-tr, 1));
+  line-height: 1.55;
+  color: var(--silver-2);
+}
+
+/* Les règles du souffle affiché, nommées et de leur couleur. La légende arrive
+   là où la règle se lit : une couleur qu'il faut aller chercher ailleurs
+   n'apprend rien. */
+.rules {
+  list-style: none;
+  margin: clamp(16px, 2.6vh, 30px) auto 0;
+  padding: clamp(12px, 1.8vh, 18px) 0 0;
+  max-width: 62ch;
+  border-top: 1px solid var(--line);
+  display: flex; flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px clamp(14px, 2vw, 26px);
+}
+.rule {
+  font-family: var(--ui);
+  font-size: 11px;
+  letter-spacing: .02em;
+  color: var(--silver-3);
+  white-space: nowrap;
+}
+.rule b {
+  font-weight: 600;
+  color: currentColor;   /* la teinte de la regle vient de .tj--… */
+}
+
 .lyric__tr {
-  margin: clamp(18px, 3vh, 34px) auto 0;
+  margin: clamp(16px, 2.6vh, 30px) auto 0;
+  padding-top: clamp(12px, 1.8vh, 18px);
+  border-top: 1px solid var(--line);
   max-width: 62ch;
   font-family: var(--serif);
   font-size: calc(clamp(1rem, 1.25vw, 1.22rem) * var(--fit-tr, 1));
   font-weight: 400; line-height: 1.68;
   color: var(--sand);
-}
-
-/* --- les lignes du verset --- */
-
-/* Un long verset se lit par souffles : chaque marque de pause ouvre une ligne.
-   La ligne recitee se signale par un filet en marge, du cote ou commence la
-   lecture — pas par l'effacement des autres. Un premier essai les mettait a
-   0,62 d'opacite : la teinte la plus sombre du tajwid y tombait a 3,0:1, sous
-   le plancher. Un filet ne coute aucun contraste. */
-.ln {
-  display: block;
-  position: relative;
-  padding-inline-start: 16px;
-  opacity: .88;
-  transition: opacity .35s var(--ease);
-}
-.ln.is-now { opacity: 1; }
-.lyric__ar:not(:has(.ln.is-now)) .ln { opacity: 1; }
-
-/* Trois voix, jamais melangees : l'arabe en argent, le mot a mot en argent
-   italique et plus petit, le sable reserve a la traduction francaise du verset.
-   La couleur dit donc toujours de quel texte il s'agit. */
-.ln__ar { display: block; }
-
-.ln__tr {
-  display: block;
-  margin: .1em 0 1.15em;
-  font-family: var(--serif);
-  font-style: italic;
-  font-size: calc(clamp(.82rem, .95vw, .95rem) * var(--fit-tr, 1));
-  line-height: 1.5;
-  letter-spacing: .01em;
-  color: var(--silver-2);
-  text-align: center;
-}
-.ln:last-child .ln__tr { margin-bottom: .2em; }
-
-.ln.is-now::before {
-  content: "";
-  position: absolute;
-  inset-inline-start: 0;
-  top: .42em; bottom: .42em;
-  width: 2px; border-radius: 1px;
-  background: var(--moon);
-  box-shadow: 0 0 12px rgba(127, 180, 255, .55);
 }
 
 /* --- le mot en cours --- */
@@ -448,6 +443,14 @@ body.is-tajweed .w.is-read { color: var(--silver); opacity: .82; }
 }
 .counter b { font-size: 14px; font-weight: 600; color: var(--silver); }
 .counter__sep { color: var(--moon-deep); }
+
+.counter--seg {
+  font-size: 10.5px; letter-spacing: .1em;
+  color: var(--moon-deep);
+  padding-inline-start: 12px;
+  border-inline-start: 1px solid var(--line);
+}
+.counter--seg:empty { display: none; }
 
 .ico { width: 19px; height: 19px; display: block; }
 

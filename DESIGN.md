@@ -138,22 +138,32 @@ l'ornement. Le mode se coupe en un clic, et le mushaf redevient argent.
 Le mot récité s'éclaircit par `filter: brightness()` et non en passant au blanc :
 l'écraser effacerait la règle au moment précis où elle se prononce.
 
-## Les lignes de souffle
+## Un souffle par écran
 
-Un long verset se coupe aux marques de pause du texte uthmani (`ۖ`–`ۜ`) —
-là où le récitant reprend son souffle. Ce n'est pas un découpage arbitraire : c'est
-celui que le texte porte déjà.
+L'unité affichée n'est plus le verset mais **le souffle** : le fragment compris entre
+deux marques de pause du texte uthmani (`ۖ`–`ۜ`). Ce n'est pas un découpage
+inventé, c'est celui que le texte porte déjà, et c'est celui que la voix suit.
 
-La ligne récitée se signale par **un filet en marge**, du côté où commence la lecture.
-Un premier essai atténuait les autres lignes à 0,62 d'opacité : la teinte de tajwīd la
-plus sombre y tombait à 3,0:1, sous le plancher. Un filet ne coûte aucun contraste.
+Un seul souffle occupe l'écran. Il tourne quand le mot récité passe au suivant, par le
+même fondu croisé que les versets. Conséquence mesurée : Al-Baqarah 2:282, 1 220
+caractères, tenait en 17 lignes qu'il fallait faire défiler ; elle tient désormais en
+17 écrans dont **aucun ne défile**.
 
-Sous chaque segment vient le mot à mot **des mots exactement qu'il contient** — donc
-un texte aligné, pas un découpage inventé. Cela ajoute une troisième voix, et la règle
-des deux voix tient quand même parce que la couleur continue de dire de quel texte il
-s'agit : l'arabe en argent, le mot à mot en argent italique et plus petit, et le sable
-**réservé** à la traduction française du verset. Un verset d'un seul tenant ne reçoit
-pas de mot à mot : la traduction dessous dirait déjà la même chose.
+Le corps du texte se calcule sur la longueur du souffle, pas du verset : un souffle de
+cinq mots s'affiche donc plus grand qu'avant (palier 1,18), et le plancher remonte à
+0,70 puisqu'il n'a plus à absorber un verset entier.
+
+Le numéro du verset et la traduction française ne se posent qu'au **dernier** souffle :
+l'un clôt le verset dans le mushaf, l'autre porte sur le verset entier et n'aurait aucun
+sens répété sous chaque fragment.
+
+Sous le souffle viennent son mot à mot — bâti sur les mots exactement qu'il contient,
+donc aligné et jamais deviné — puis **les règles de tajwīd qu'il contient, nommées et
+de leur couleur**. Une couleur qu'il faut aller chercher dans un panneau n'apprend
+rien ; ici la légende est là où la règle se lit.
+
+Trois voix, distinguées par la couleur : l'arabe en argent, le mot à mot en argent
+italique, le sable **réservé** à la traduction française.
 
 ## La signature
 
