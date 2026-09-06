@@ -134,6 +134,7 @@
     ruleLang: read('ruleLang', 'fr'),
     verseTr: read('verseTr', false),
     active:  0,
+    bismillah: false,
     segs:    null,
     seg:     0,
     token:   0,
@@ -254,8 +255,11 @@
       ' · ' + ch.verses_count + ' versets · ' +
       (ch.revelation_place === 'makkah' ? 'Mecquoise' : 'Médinoise');
 
-    el.shBism.hidden = !ch.bismillah_pre;
+    /* La basmala ouvre la sourate, elle ne la ponctue pas : la repeter sous
+       chaque verset mangeait la hauteur du souffle affiche. */
+    S.bismillah = !!ch.bismillah_pre;
     el.shBism.textContent = BISMILLAH;
+    el.shBism.hidden = true;
     el.vSurah.textContent = ch.name_simple;
     document.title = 'Sakīna — ' + ch.name_simple;
   }
@@ -491,6 +495,7 @@
 
   function setActive(i) {
     S.active = i;
+    el.shBism.hidden = !(S.bismillah && i === 0);
     showVerse(i);
 
     el.cNow.textContent = i + 1;

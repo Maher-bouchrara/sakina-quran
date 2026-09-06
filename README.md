@@ -58,8 +58,10 @@ Un petit serveur reste plus sûr (certains navigateurs durcissent `file://`).
 - **Plein écran** : les barres s'effacent d'elles-mêmes après 2,8 s d'immobilité,
   la ligne reste seule ; le moindre mouvement les rappelle.
 - Curseur pour aller à n'importe quel verset ; répétition d'un verset ; vitesse
-  0,75× / 1× / 1,25× ; volume ; clavier (`Espace`, `←`, `→`, `R`, `M`, `F`, `Échap`) ;
-  touches média du système.
+  0,75× / 1× / 1,25× — **au téléphone aussi**, c'est là qu'elle sert le plus ; volume ;
+  clavier (`Espace`, `←`, `→`, `R`, `M`, `F`, `Échap`) ; touches média du système.
+- La basmala ouvre la sourate et ne se répète pas sous chaque verset : 66 px de hauteur
+  rendus au souffle affiché.
 - Les préférences (voix, sourate, traduction, scène, vitesse, volume) sont conservées
   d'une visite à l'autre.
 

@@ -183,6 +183,23 @@ liste. `minmax(232px, …)` imposait un minimum de piste que `auto-fit` ne peut 
 réduire : à 449 px la grille réclamait deux colonnes et débordait de 67 px, emportant
 les noms arabes hors de l'écran. `min(232px, 100%)` laisse la piste retomber.
 
+## Le rail au téléphone
+
+Sous 900 px le rail passe en **trois rangées** — curseur de verset, transport, réglages —
+au lieu de deux. Le curseur partageait sa rangée avec le compteur et les trois boutons :
+il lui restait 120 px, collés au bouton précédent. Seul sur sa ligne il en prend 357 à
+449 px de large, et 223 à 375. Le rail gagne 59 px de hauteur ; la basmala en rend 66.
+
+La vitesse revient au téléphone. Elle en avait été retirée par manque de place, alors
+que c'est là qu'elle sert le plus : ralentir pour suivre une récitation qu'on apprend.
+
+## La basmala
+
+Elle **ouvre** la sourate, elle ne la ponctue pas. Affichée sous chaque verset, elle
+mangeait 66 px de la hauteur réservée au souffle — pour redire à chaque fois ce que le
+premier verset a déjà dit. Elle ne paraît donc qu'au verset 1, et seulement pour les
+112 sourates dont `bismillah_pre` est vrai.
+
 ## La signature
 
 « © Maher Bouchrara » occupe **sa propre bande**, sous les commandes, séparée par le
